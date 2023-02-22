@@ -5,14 +5,47 @@ volumes:
     driver: local
 
 services:
-  postgres:
+  backend:
+    image: backend:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8888:8888"
+    depends_on:
+      - keycloak
+      - db_backend
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db_backend:5432/quattys?currentSchema=public
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - KEYCLOAK_URL=keycloak
+
+  db_backend:
     image: postgres:14
+    container_name: db_backend
+    restart: on-failure
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=quattys
+
+
+  postgres:
+    image: postgres:10
+    container_name: db_keycloak
+    ports:
+      - "5433:5432"
+    restart: always
     volumes:
       - postgres_data:/var/lib/postgresql/data
     environment:
-      POSTGRES_DB: keycloak
-      POSTGRES_USER: keycloak
-      POSTGRES_PASSWORD: password
+      - POSTGRES_USER=keycloak
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=keycloak
+
   keycloak:
     image: quay.io/keycloak/keycloak:20.0.3
     command:
