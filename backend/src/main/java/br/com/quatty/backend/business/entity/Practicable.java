@@ -9,6 +9,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -21,6 +22,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "practicable")
 public class Practicable implements Serializable {
+    @Serial
     private static final long serialVersionUID = -7786459425458187270L;
 
     @EmbeddedId

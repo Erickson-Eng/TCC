@@ -2,12 +2,14 @@ package br.com.quatty.backend.business.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -18,9 +20,11 @@ import java.time.LocalDateTime;
 @Setter
 @ToString
 @Entity
+@SuperBuilder
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @EntityListeners(AuditingEntityListener.class)
-public abstract class Profile implements Serializable {
+public class Profile implements Serializable {
+    @Serial
     private static final long serialVersionUID = -5491102604750413133L;
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
@@ -33,8 +37,8 @@ public abstract class Profile implements Serializable {
     @Column(length = 11)
     private String cpf;
 
-    @OneToOne(cascade = {CascadeType.REFRESH, CascadeType.PERSIST}, optional = true)
-    @JoinColumn(nullable = true)
+    @OneToOne(cascade = {CascadeType.REFRESH, CascadeType.PERSIST})
+    @JoinColumn(nullable = false)
     private Locale locale;
 
     @Column(name = "created_date", nullable = false, updatable = false)

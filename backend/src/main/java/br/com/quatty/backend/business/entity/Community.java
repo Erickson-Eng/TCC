@@ -7,6 +7,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -20,6 +21,7 @@ import java.util.Set;
 @Entity
 @Table(name = "community")
 public class Community implements Serializable {
+    @Serial
     private static final long serialVersionUID = -4747234675831091652L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

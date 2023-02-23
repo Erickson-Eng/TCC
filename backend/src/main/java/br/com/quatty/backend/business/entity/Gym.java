@@ -7,6 +7,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -20,6 +21,7 @@ import java.util.Set;
 @Entity
 @Table(name = "gym")
 public class Gym implements Serializable {
+    @Serial
     private static final long serialVersionUID = 7962264726941618041L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

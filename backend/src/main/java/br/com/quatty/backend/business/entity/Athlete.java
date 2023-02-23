@@ -5,11 +5,13 @@ import jakarta.persistence.EntityListeners;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.io.Serial;
 import java.util.Set;
 
-@Builder
+@SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -19,6 +21,7 @@ import java.util.Set;
 @Table(name = "athlete")
 @EntityListeners(AuditingEntityListener.class)
 public class Athlete extends Profile {
+    @Serial
     private static final long serialVersionUID = -8917186030974958615L;
     private Double weight;
     private Double height;
