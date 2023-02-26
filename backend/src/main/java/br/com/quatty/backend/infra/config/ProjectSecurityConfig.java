@@ -47,7 +47,7 @@ public class ProjectSecurityConfig {
                 .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
                 .authorizeHttpRequests()
                 .requestMatchers("/hello").hasRole("USER")
-                .requestMatchers("/hello").hasAnyRole("USER","ADMIN")
+                .requestMatchers("/api/v1/**").hasAnyRole("USER","ADMIN")
                 .requestMatchers("/myLoans").authenticated()
                 .requestMatchers("/myCards").hasRole("USER")
                 .requestMatchers("/user").authenticated()

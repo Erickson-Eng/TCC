@@ -5,6 +5,7 @@ import br.com.quatty.backend.api.dto.response.CommunityResponse;
 import br.com.quatty.backend.business.entity.Community;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
 public interface CommunityMapper {
@@ -20,4 +21,7 @@ public interface CommunityMapper {
     Community communityRequestToEntity(CommunityRequest communityRequest);
 
     CommunityResponse entityToCommunityResponse(Community community);
+
+    @Mapping(target = "id", ignore = true)
+    Community updateCommunityValues(@MappingTarget Community community, CommunityRequest communityRequest);
 }

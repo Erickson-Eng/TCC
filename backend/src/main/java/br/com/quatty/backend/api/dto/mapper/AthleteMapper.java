@@ -5,6 +5,7 @@ import br.com.quatty.backend.api.dto.response.AthleteResponse;
 import br.com.quatty.backend.business.entity.Athlete;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
 public interface AthleteMapper {
@@ -23,4 +24,6 @@ public interface AthleteMapper {
     @Mapping(target = "birthDate", dateFormat = "dd/MM/yyyy HH:mm:ss")
     AthleteResponse entityToAthleteResponse(Athlete athlete);
 
+    @Mapping(target = "id", ignore = true)
+    Athlete updateAthleteValues(@MappingTarget Athlete athlete, AthleteRequest athleteRequest);
 }

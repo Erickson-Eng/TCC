@@ -5,6 +5,7 @@ import br.com.quatty.backend.api.dto.response.GymResponse;
 import br.com.quatty.backend.business.entity.Gym;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
 public interface GymMapper {
@@ -19,4 +20,7 @@ public interface GymMapper {
 
     @Mapping(target = "localeResponse", source = "locale")
     GymResponse entityToGymResponse(Gym gym);
+
+    @Mapping(target = "id", ignore = true)
+    Gym updateGymValues(@MappingTarget Gym gym, GymRequest gymRequest);
 }

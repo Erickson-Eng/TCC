@@ -5,6 +5,7 @@ import br.com.quatty.backend.api.dto.response.SportResponse;
 import br.com.quatty.backend.business.entity.Sport;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
 public interface SportMapper {
@@ -17,4 +18,7 @@ public interface SportMapper {
     Sport sportRequestToEntity(SportRequest sportRequest);
 
     SportResponse entityToSportResponse(Sport sport);
+
+    @Mapping(target = "id", ignore = true)
+    Sport updateSportValues(@MappingTarget Sport sport, SportRequest sportRequest);
 }
