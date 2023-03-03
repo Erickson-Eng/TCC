@@ -17,7 +17,6 @@ public class AthleteResponse {
     private String socialName;
     private String birthDate;
     private String cpf;
-    private Long localeId;
     private Double weight;
     private Double height;
     private Double bicepsMeasurement;

@@ -10,4 +10,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MembershipFilterParams {
+
+    private Long athleteId;
+    private Long communityId;
+    private String membershipStatus;
 }

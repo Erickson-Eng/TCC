@@ -32,7 +32,7 @@ public class Gym implements Serializable {
     private String name;
     @Column(columnDefinition = "TEXT")
     private String rules;
-    @OneToOne(cascade = {CascadeType.REFRESH, CascadeType.PERSIST}, orphanRemoval = true)
+    @OneToOne(cascade = {CascadeType.REFRESH}, orphanRemoval = true)
     private Locale locale;
 
     @OneToMany(mappedBy = "gym")

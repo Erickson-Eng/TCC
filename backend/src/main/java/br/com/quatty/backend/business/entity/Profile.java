@@ -37,8 +37,7 @@ public class Profile implements Serializable {
     @Column(length = 11)
     private String cpf;
 
-    @OneToOne(cascade = {CascadeType.REFRESH, CascadeType.PERSIST})
-    @JoinColumn(nullable = false)
+    @OneToOne(cascade = {CascadeType.REFRESH, CascadeType.DETACH})
     private Locale locale;
 
     @Column(name = "created_date", nullable = false, updatable = false)
@@ -49,7 +48,7 @@ public class Profile implements Serializable {
     @LastModifiedDate
     private LocalDateTime modifiedDate;
 
-    @Column(name = "created_by")
+    @Column(name = "created_by", unique = true)
     @CreatedBy
     private String createdBy;
 

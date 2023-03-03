@@ -17,9 +17,11 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
+import jakarta.validation.ConstraintViolationException;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -37,17 +39,25 @@ public class AthleteServicePostgres implements AthleteService {
     private EntityManager entityManager;
     @Override
     public AthleteResponse createAthlete(AthleteRequest athleteRequest) {
-        var entity = athleteMapper.athleteRequestToEntity(athleteRequest);
-        entity = athleteRepository.save(entity);
-        return athleteMapper.entityToAthleteResponse(entity);
+        try{
+            var entity = athleteMapper.athleteRequestToEntity(athleteRequest);
+            entity = athleteRepository.save(entity);
+            return athleteMapper.entityToAthleteResponse(entity);
+        } catch (DataIntegrityViolationException e){
+            throw new DataIntegrityViolationException("Não foi possível salvar");
+        }
     }
 
     @Override
     public AthleteResponse updateAthleteInfo(Long id, AthleteRequest athleteRequest) {
-        var entity = verifyIfExist(id);
-        entity = athleteMapper.updateAthleteValues(entity, athleteRequest);
-        entity = athleteRepository.save(entity);
-        return athleteMapper.entityToAthleteResponse(entity);
+        try{
+            var entity = verifyIfExist(id);
+            entity = athleteMapper.updateAthleteValues(entity, athleteRequest);
+            entity = athleteRepository.save(entity);
+            return athleteMapper.entityToAthleteResponse(entity);
+        } catch (DataIntegrityViolationException e){
+            throw new DataIntegrityViolationException("message");
+        }
     }
 
     @Override

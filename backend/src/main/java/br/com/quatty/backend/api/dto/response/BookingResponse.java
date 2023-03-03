@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class BookingResponse {
 
+    private Long id;
     private String checkinBooking;
     private String checkoutBooking;
 

@@ -17,6 +17,7 @@ public interface AthleteMapper {
     @Mapping(target = "createdBy", ignore = true)
     @Mapping(target = "modifiedBy", ignore = true)
     @Mapping(target = "membershipSet", ignore = true)
+    @Mapping(target = "locale.id", source = "localeId")
     Athlete athleteRequestToEntity(AthleteRequest athleteRequest);
 
 
