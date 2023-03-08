@@ -38,7 +38,7 @@ public class Locale implements Serializable {
     @Column(nullable = false)
     private String zipCode;
 
-    @Column(name = "created_date", nullable = false, updatable = false)
+    @Column(name = "created_date", updatable = false)
     @CreatedDate
     private LocalDateTime createdDate;
 

@@ -57,4 +57,9 @@ public class Practicable implements Serializable {
     @Column(name = "modified_by")
     @LastModifiedBy
     private String modifiedBy;
+
+
+    public void setPracticableState(String practicableState) {
+        this.practicableState = PracticableState.getPracticableState(practicableState);
+    }
 }

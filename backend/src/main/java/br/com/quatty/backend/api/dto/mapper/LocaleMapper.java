@@ -5,6 +5,7 @@ import br.com.quatty.backend.api.dto.response.LocaleResponse;
 import br.com.quatty.backend.business.entity.Locale;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
 public interface LocaleMapper {
@@ -17,5 +18,8 @@ public interface LocaleMapper {
     Locale localeRequestToEntity(LocaleRequest localeRequest);
 
 
-    LocaleResponse entityToLocaleResponse(LocaleResponse localeResponse);
+    LocaleResponse entityToLocaleResponse(Locale locale);
+
+    @Mapping(target = "id", ignore = true)
+    Locale updateLocaleValues(@MappingTarget Locale locale, LocaleRequest localeRequest);
 }

@@ -58,4 +58,7 @@ public class Membership implements Serializable {
     @LastModifiedBy
     private String modifiedBy;
 
+    public void setMembershipStatus(String membershipStatus) {
+        this.membershipStatus = MembershipStatus.getMembershipStatus(membershipStatus);
+    }
 }
