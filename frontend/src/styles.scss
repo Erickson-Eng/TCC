@@ -2,24 +2,6 @@
 @import "@angular/material/theming";
 @include mat-core();
 
-$my-dark-primary: mat-palette($mat-orange, 400);
-$my-dark-accent:  mat-palette($mat-amber, A200, A100, A700);
-$my-dark-warn:    mat-palette($mat-deep-orange);
-
-
-$md-dark-theme-primary: mat.define-palette(mat.$cyan-palette, 500);
-$md-dark-theme-secondary: mat.define-palette(mat.$orange-palette, 500);
-
-$md-dark-theme-text: #FFFFFF;
-$md-dark-theme-background: #121212;
-$md-dark-theme-surface: #1E1E1E;
-$md-dark-theme-on-primary: #FFFFFF;
-$md-dark-theme-on-secondary: #000000;
-$md-dark-theme-on-background: #FFFFFF;
-$md-dark-theme-on-surface: #FFFFFF;
-
-$md-dark-theme-error: mat.define-palette(mat.$red-palette, 500);
-
 
 $my-dark-theme-typography: mat.define-typography-config(
   $headline-1: mat.define-typography-level(7rem, 7rem, 300),
@@ -36,31 +18,120 @@ $my-dark-theme-typography: mat.define-typography-config(
   $button: mat.define-typography-level(0.875rem, 0.875rem, 500)
 );
 
-$my-dark-theme: mat-dark-theme(
-  (
-    color: (
-      primary: $my-dark-primary,
-      accent: $my-dark-accent,
-      warn: $my-dark-warn
-    ),
-    background: (
-      primary: $md-dark-theme-background,
-      secondary: $md-dark-theme-surface,
-    ),
-    on: (
-      primary: $md-dark-theme-on-primary,
-      secondary: $md-dark-theme-on-secondary,
-      background: $md-dark-theme-on-background,
-      surface: $md-dark-theme-on-surface,
-    ),
-    text : (
-      primary: $md-dark-theme-text
-    ),
-    typography: $my-dark-theme-typography
-  )
+
+$primary-sport-palette: (
+  50: #f2f0ff,
+  100: #c5cae9,
+  200: #c7bdff,
+  300: #fdd835,
+  400: #9a8aff,
+  500: #f57f17,
+  600: #f9a825,
+  700: #6c56e6,
+  800: #fbc02d,
+  900: #f57f17,
+  contrast: (
+    50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    300: rgba(black, 0.87),
+    400: rgba(black, 0.87),
+    500: rgba(black, 0.87),
+    600: rgba(black, 0.87),
+    700: rgba(black, 0.87),
+    800: rgba(black, 0.87),
+    900: white,
+  ),
 );
 
-@include angular-material-theme($my-dark-theme);
+$secondary-sport-palette: (
+  50: #e0f2f1,
+  100: #b2dfdb,
+  200: #80cbc4,
+  300: #4db6ac,
+  400: #26a69a,
+  500: #009688,
+  600: #00897b,
+  700: #00796b,
+  800: #00695c,
+  900: #004d40,
+  contrast: (
+    50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    300: white,
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+  ),
+);
+
+$error-palette: (
+  50: #ffebee,
+  100: #ffcdd2,
+  200: #ef9a9a,
+  300: #e57373,
+  400: #ef5350,
+  500: #f44336,
+  600: #e53935,
+  700: #d32f2f,
+  800: #c62828,
+  900: #b71c1c,
+  contrast: (
+    50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: white,
+    300: white,
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+  ),
+);
+
+
+$md-dark-theme-text: #FFFFFF;
+$md-dark-theme-background: #121212;
+$md-dark-theme-surface: #1E1E1E;
+$md-dark-theme-on-primary: #FFFFFF;
+$md-dark-theme-on-secondary: #000000;
+$md-dark-theme-on-background: #FFFFFF;
+$md-dark-theme-on-surface: #FFFFFF;
+
+$my-primary: mat.define-palette($primary-sport-palette);
+$my-accent: mat.define-palette($secondary-sport-palette);
+$my-warn:  mat.define-palette($error-palette);
+
+$my-theme: mat.define-dark-theme((
+  color: (
+    primary: $my-primary,
+    accent: $my-accent,
+    warn: $my-warn,
+  ),
+  text : (
+    primary: $md-dark-theme-text
+  ),
+  background: (
+    primary: $md-dark-theme-background,
+    secondary: $md-dark-theme-surface,
+  ),
+  on: (
+    primary: $md-dark-theme-on-primary,
+    secondary: $md-dark-theme-on-secondary,
+    background: $md-dark-theme-on-background,
+    surface: $md-dark-theme-on-surface,
+  ),
+  typography: $my-dark-theme-typography ,
+  density: 0
+
+));
+
+@include mat.all-component-themes($my-theme);
 
 
 html,
