@@ -1,0 +1,74 @@
+@use '@angular/material' as mat;
+@import "@angular/material/theming";
+@include mat-core();
+
+$my-dark-primary: mat-palette($mat-orange, 400);
+$my-dark-accent:  mat-palette($mat-amber, A200, A100, A700);
+$my-dark-warn:    mat-palette($mat-deep-orange);
+
+
+$md-dark-theme-primary: mat.define-palette(mat.$cyan-palette, 500);
+$md-dark-theme-secondary: mat.define-palette(mat.$orange-palette, 500);
+
+$md-dark-theme-text: #FFFFFF;
+$md-dark-theme-background: #121212;
+$md-dark-theme-surface: #1E1E1E;
+$md-dark-theme-on-primary: #FFFFFF;
+$md-dark-theme-on-secondary: #000000;
+$md-dark-theme-on-background: #FFFFFF;
+$md-dark-theme-on-surface: #FFFFFF;
+
+$md-dark-theme-error: mat.define-palette(mat.$red-palette, 500);
+
+
+$my-dark-theme-typography: mat.define-typography-config(
+  $headline-1: mat.define-typography-level(7rem, 7rem, 300),
+  $headline-2: mat.define-typography-level(3.5rem, 3.5rem, 400),
+  $headline-3: mat.define-typography-level(2.8125rem, 3rem, 400),
+  $headline-4: mat.define-typography-level(2.125rem, 2.5rem, 400),
+  $headline-5: mat.define-typography-level(1.5rem, 2rem, 400),
+  $headline-6: mat.define-typography-level(1.25rem, 2rem, 500),
+  $subtitle-1: mat.define-typography-level(1rem, 1.75rem, 400),
+  $subtitle-2: mat.define-typography-level(0.9375rem, 1.5rem, 400),
+  $body-1: mat.define-typography-level(0.875rem, 1.5rem, 500),
+  $body-2: mat.define-typography-level(0.875rem, 1.25rem, 400),
+  $caption: mat.define-typography-level(0.75rem, 1.25rem, 400),
+  $button: mat.define-typography-level(0.875rem, 0.875rem, 500)
+);
+
+$my-dark-theme: mat-dark-theme(
+  (
+    color: (
+      primary: $my-dark-primary,
+      accent: $my-dark-accent,
+      warn: $my-dark-warn
+    ),
+    background: (
+      primary: $md-dark-theme-background,
+      secondary: $md-dark-theme-surface,
+    ),
+    on: (
+      primary: $md-dark-theme-on-primary,
+      secondary: $md-dark-theme-on-secondary,
+      background: $md-dark-theme-on-background,
+      surface: $md-dark-theme-on-surface,
+    ),
+    text : (
+      primary: $md-dark-theme-text
+    ),
+    typography: $my-dark-theme-typography
+  )
+);
+
+@include angular-material-theme($my-dark-theme);
+
+
+html,
+body {
+  height: 100%;
+  background-color: $md-dark-theme-background;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
