@@ -1,8 +1,8 @@
 .container {
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
   flex-direction: column;
 
   .card {
@@ -25,15 +25,13 @@
       align-items: center;
       flex-direction: column;
       padding: 1rem 0;
-
-      img {
-        padding-bottom: 2rem;
-      }
-
-      h1 {
+      .divisor-horizontal {
         width: 80%;
         color: #fff;
-        text-align: center;
+        border-bottom: 1px solid #ccc;
+      }
+      img {
+        padding-bottom: 2rem;
       }
     }
 
@@ -45,34 +43,14 @@
       .input-field {
         width: 80%;
       }
-      button {
+      section {
         width: 80%;
+        padding-bottom: 1rem;
+      }
+      button {
+        width: 60%;
         color: #fff;
       }
-    }
-
-    .links {
-      padding-top: 1.4rem;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-
-      a {
-        padding: 0.3rem;
-        text-decoration: none;
-        color: #c4c4c4;
-
-        &:hover {
-          color: #fff;
-        }
-      }
-    }
-  }
-
-  @media only screen and (min-width: 768px) {
-    form {
-      width: 60%;
     }
   }
 }
