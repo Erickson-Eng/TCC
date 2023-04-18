@@ -10,11 +10,14 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class MembershipRequest {
+public class AttendanceRequest {
+
+    @NotNull(message = "booking id is mandatory")
+    private Long bookingId;
 
     @NotNull(message = "athlete id is mandatory")
     private Long athleteId;
-    @NotNull(message = "community id is mandatory")
-    private Long communityId;
-    private String applicationState;
+
+    @NotNull(message = "confirmation is mandatory")
+    private String attendanceConfirmation;
 }

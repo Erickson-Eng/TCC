@@ -9,6 +9,8 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.security.authentication.event.AuthenticationSuccessEvent;
 import org.springframework.stereotype.Component;
 
+import java.math.BigInteger;
+
 @Component
 @Slf4j
 public class AuthenticationSuccessListener implements ApplicationListener<AuthenticationSuccessEvent> {
@@ -19,7 +21,8 @@ public class AuthenticationSuccessListener implements ApplicationListener<Authen
             KeycloakAuthenticationToken authentication = (KeycloakAuthenticationToken) event.getAuthentication();
             KeycloakPrincipal<RefreshableKeycloakSecurityContext> principal = (KeycloakPrincipal<RefreshableKeycloakSecurityContext>) authentication.getPrincipal();
             String preferredUsername = principal.getKeycloakSecurityContext().getIdToken().getPreferredUsername();
-            String email = principal.getKeycloakSecurityContext().getIdToken().getEmail();
+            String email = "";
+            email = principal.getKeycloakSecurityContext().getIdToken().getEmail();
             log.info("Usuário '{}' autenticado com sucesso", preferredUsername);
 
         }

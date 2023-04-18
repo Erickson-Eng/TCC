@@ -9,6 +9,7 @@ import lombok.experimental.SuperBuilder;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.io.Serial;
+import java.util.List;
 import java.util.Set;
 
 @SuperBuilder
@@ -23,15 +24,16 @@ import java.util.Set;
 public class Athlete extends Profile {
     @Serial
     private static final long serialVersionUID = -8917186030974958615L;
-    private Double weight;
-    private Double height;
-    private Double bicepsMeasurement;
-    private Double forearmMeasurement;
-    private Double chestMeasurement;
-    private Double thighMeasurement;
-    private Double calfMeasurement;
+
+    @OneToMany(mappedBy = "athlete")
+    @ToString.Exclude
+    private List<Attendance> attendanceList;
 
     @OneToMany(mappedBy = "athlete")
     @ToString.Exclude
     private Set<Membership> membershipSet;
+
+    @OneToMany(mappedBy = "athlete")
+    @ToString.Exclude
+    private List<BodyMeasure> bodyMeasures;
 }

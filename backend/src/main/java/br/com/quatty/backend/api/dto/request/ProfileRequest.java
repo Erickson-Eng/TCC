@@ -1,5 +1,6 @@
 package br.com.quatty.backend.api.dto.request;
 
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -11,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AthleteRequest {
+public class ProfileRequest {
 
     @NotBlank(message = "Athlete name is required")
     private String fullName;
@@ -21,11 +22,4 @@ public class AthleteRequest {
     private String cpf;
     @NotNull(message = "It is necessary to inform the id of the location")
     private Long localeId;
-    private Double weight;
-    private Double height;
-    private Double bicepsMeasurement;
-    private Double forearmMeasurement;
-    private Double chestMeasurement;
-    private Double thighMeasurement;
-    private Double calfMeasurement;
 }

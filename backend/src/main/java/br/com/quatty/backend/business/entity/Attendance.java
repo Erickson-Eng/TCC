@@ -1,7 +1,7 @@
 package br.com.quatty.backend.business.entity;
 
-import br.com.quatty.backend.business.entity.enums.ApplicationState;
-import br.com.quatty.backend.business.entity.pk.MembershipPK;
+import br.com.quatty.backend.business.entity.enums.AttendanceConfirmation;
+import br.com.quatty.backend.business.entity.pk.AttendancePK;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedBy;
@@ -13,33 +13,33 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-@AllArgsConstructor
-@NoArgsConstructor
+
 @Getter
 @Setter
 @ToString
 @Entity
-@Table(name = "membership")
-public class Membership implements Serializable {
+@Table(name = "attendance")
+@NoArgsConstructor
+@AllArgsConstructor
+public class Attendance implements Serializable {
     @Serial
-    private static final long serialVersionUID = -7406087354711767070L;
-
+    private static final long serialVersionUID = -3834859719344436414L;
     @EmbeddedId
     @Column(unique = true, nullable = false)
-    private MembershipPK membershipPK;
+    private AttendancePK attendancePK;
 
-    @MapsId("athleteId")
+    @MapsId("bookingId")
+    @ManyToOne(cascade = CascadeType.REFRESH)
+    @JoinColumn(name = "booking_id", updatable = false, referencedColumnName = "id")
+    private Booking booking;
+
+    @MapsId("atlheteId")
     @ManyToOne(cascade = CascadeType.REFRESH)
     @JoinColumn(name = "athlete_id", updatable = false, referencedColumnName = "id")
     private Athlete athlete;
 
-    @MapsId("communityId")
-    @ManyToOne(cascade = CascadeType.REFRESH)
-    @JoinColumn(name = "community_id", updatable = false, referencedColumnName = "id")
-    private Community community;
-
     @Enumerated(EnumType.STRING)
-    private ApplicationState applicationState;
+    private AttendanceConfirmation attendanceConfirmation;
 
     @Column(name = "created_date", nullable = false, updatable = false)
     @CreatedDate
@@ -49,7 +49,7 @@ public class Membership implements Serializable {
     @LastModifiedDate
     private LocalDateTime modifiedDate;
 
-    @Column(name = "created_by")
+    @Column(name = "created_by", unique = true)
     @CreatedBy
     private String createdBy;
 
@@ -57,7 +57,8 @@ public class Membership implements Serializable {
     @LastModifiedBy
     private String modifiedBy;
 
-    public void setApplicationState(String membershipStatus) {
-        this.applicationState = ApplicationState.getApplicationState(membershipStatus);
+
+    public void setAttendanceConfirmation(String attendanceConfirmation) {
+        this.attendanceConfirmation = AttendanceConfirmation.getAttendanceStatus(attendanceConfirmation);
     }
 }

@@ -1,8 +1,8 @@
 package br.com.quatty.backend.business.service.postgres;
 
 import br.com.quatty.backend.api.dto.filter.AthleteFilterParams;
-import br.com.quatty.backend.api.dto.mapper.AthleteMapper;
-import br.com.quatty.backend.api.dto.request.AthleteRequest;
+import br.com.quatty.backend.api.dto.mapper.ProfileMapper;
+import br.com.quatty.backend.api.dto.request.ProfileRequest;
 import br.com.quatty.backend.api.dto.response.AthleteResponse;
 import br.com.quatty.backend.api.dto.table.AthleteTableResponse;
 import br.com.quatty.backend.business.entity.Athlete;
@@ -17,7 +17,6 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
-import jakarta.validation.ConstraintViolationException;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -34,11 +33,11 @@ import java.util.List;
 public class AthleteServicePostgres implements AthleteService {
 
     private AthleteRepository athleteRepository;
-    private AthleteMapper athleteMapper;
+    private ProfileMapper athleteMapper;
     @PersistenceContext
     private EntityManager entityManager;
     @Override
-    public AthleteResponse createAthlete(AthleteRequest athleteRequest) {
+    public AthleteResponse createAthlete(ProfileRequest athleteRequest) {
         try{
             var entity = athleteMapper.athleteRequestToEntity(athleteRequest);
             entity = athleteRepository.save(entity);
@@ -49,7 +48,7 @@ public class AthleteServicePostgres implements AthleteService {
     }
 
     @Override
-    public AthleteResponse updateAthleteInfo(Long id, AthleteRequest athleteRequest) {
+    public AthleteResponse updateAthleteInfo(Long id, ProfileRequest athleteRequest) {
         try{
             var entity = verifyIfExist(id);
             entity = athleteMapper.updateAthleteValues(entity, athleteRequest);

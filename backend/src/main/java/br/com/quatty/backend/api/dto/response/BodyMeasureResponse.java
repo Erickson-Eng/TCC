@@ -9,10 +9,14 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CommunityResponse {
+public class BodyMeasureResponse {
 
     private Long id;
-    private String name;
-    private String description;
-    private String communityRules;
+    private Double weight;
+    private Double height;
+    private Double biceps;
+    private Double forearm;
+    private Double chest;
+    private Double thigh;
+    private Double calf;
 }

@@ -9,13 +9,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class MembershipResponse {
+public class AttendanceResponse {
 
+    private Long bookingId;
     private Long athleteId;
-    private String athleteName;
-    private Long communityId;
-    private String communityName;
-    private String applicationState;
-    private String createdDate;
-    private String modifiedDate;
+    private String attendanceConfirmation;
+
 }

@@ -12,7 +12,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AthleteResponse {
+public class ManagerResponse {
 
     private Long id;
     private String fullName;
@@ -22,5 +22,6 @@ public class AthleteResponse {
     @JsonProperty("locale")
     private LocaleResponse localeResponse;
 
-    private List<BodyMeasureResponse> bodyMeasureList;
+    @JsonProperty("gyms")
+    private List<GymResponse> gymResponseList;
 }

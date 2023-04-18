@@ -15,13 +15,14 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Embeddable
-public class PracticablePK implements Serializable {
+public class AttendancePK implements Serializable {
+
     @Serial
     private static final long serialVersionUID = 656614889487771797L;
 
-    @Column(name = "gym_id")
-    private Long gymId;
-    @Column(name = "sport_id")
-    private Long sportId;
+    @Column(name = "athlete_id")
+    private Long athleteId;
 
+    @Column(name = "booking_id")
+    private Long bookingId;
 }
