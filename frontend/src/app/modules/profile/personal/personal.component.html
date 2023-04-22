@@ -1,0 +1,72 @@
+<app-profile-tab-menu [routes]="routes" [tabName]="rota">
+</app-profile-tab-menu>
+
+<div class="container">
+  <div class="card">
+    <form [formGroup]="meuFormulario" (ngSubmit)="onSubmit()">
+      <div class="upload-file">
+        <app-upload-image
+          [acceptedTypes]="acceptedTypes"
+          (fileSelected)="onFileSelected($event)"
+        >
+        </app-upload-image>
+      </div>
+
+      <mat-form-field appearance="outline" class="input-field-fullwidth">
+        <mat-label>Name</mat-label>
+        <input matInput placeholder="insert you name" formControlName="name" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="input-field">
+        <mat-label>CPF</mat-label>
+        <input matInput placeholder="insert you CPF" formControlName="cpf" />
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="input-field">
+        <mat-label>Social Name</mat-label>
+        <input
+          matInput
+          placeholder="insert you social name"
+          formControlName="socialName"
+        />
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="input-field">
+        <mat-label>Social Pronoun</mat-label>
+        <input
+          matInput
+          placeholder="insert you social Pronoun"
+          formControlName="socialPronoun"
+        />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="input-field">
+        <mat-label>Choose a date</mat-label>
+        <input
+          placeholder="insert your birthday"
+          matInput
+          [matDatepicker]="picker"
+          formControlName="birthday"
+        />
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle
+          matIconSuffix
+          [for]="picker"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field
+        class="example-full-width"
+        appearance="outline"
+        class="input-field-fullwidth"
+      >
+        <mat-label>Leave a comment</mat-label>
+        <textarea
+          matInput
+          placeholder="Ex. It makes me feel..."
+          formControlName="bio"
+        ></textarea>
+      </mat-form-field>
+      <button mat-raised-button color="primary" type="submit">Primary</button>
+    </form>
+  </div>
+</div>

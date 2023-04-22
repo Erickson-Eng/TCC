@@ -1,0 +1,12 @@
+<div class="container">
+  <input type="file" id="btn" class="container_bttn" placeholder="none"
+  (change)="onFileSelected($event, acceptedTypes)" [accept]="acceptedTypes.join(', ')"/>
+  <label for="btn">
+    <mat-icon
+      class="upload__image"
+      aria-hidden="true"
+      aria-label="upload file icon"
+      fontIcon="upload"
+    ></mat-icon>
+  </label>
+</div>

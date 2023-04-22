@@ -8,8 +8,16 @@ const routes: Routes = [
     loadChildren: () => import('./modules/login/login.module').then(m => m.LoginModule)
   },
   {
-    path: 'create-account',
+    path: 'account',
     loadChildren: () => import('./modules/account/account.module').then(m => m.AccountModule)
+  },
+  {
+    path: 'profile',
+    loadChildren: () => import('./modules/profile/profile.module').then(m => m.ProfileModule)
+  },
+  {
+    path: 'gym',
+    loadChildren: () => import('./modules/gym/gym.module').then( m => m.GymModule)
   }
 
 ];

@@ -1,0 +1,23 @@
+<div class="container">
+  <div class="card">
+    <div class="card-logo">
+      <a routerLink="/login">
+        <img src="../../../../assets/image/Logo.svg" alt="logo" />
+      </a>
+      <h2 class="divisor-horizontal">Recovery password</h2>
+    </div>
+    <form action="">
+      <mat-form-field appearance="outline" class="input-field">
+        <mat-label>Username</mat-label>
+        <input matInput placeholder="insert you username" required />
+      </mat-form-field>
+      <button type="submit" mat-raised-button color="primary">
+        Recovery Account
+      </button>
+    </form>
+    <div class="links">
+      <a routerLink="/account/create">Create a new account</a>
+      <a routerLink="/login">Contact support</a>
+    </div>
+  </div>
+</div>
