@@ -19,7 +19,7 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db_backend:5432/quattys?currentSchema=public
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=postgres
-      - KEYCLOAK_URL=keycloak
+      - KEYCLOAK=keycloak
 
   db_backend:
     image: postgres:14
@@ -34,7 +34,7 @@ services:
 
 
   postgres:
-    image: postgres:10
+    image: postgres:14
     container_name: db_keycloak
     ports:
       - "5433:5432"
@@ -42,9 +42,9 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     environment:
-      - POSTGRES_USER=keycloak
-      - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=keycloak
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: keycloak
+      POSTGRES_DB: keycloak
 
   keycloak:
     image: quay.io/keycloak/keycloak:20.0.3
@@ -53,9 +53,9 @@ services:
     environment:
       DB_VENDOR: POSTGRES
       DB_ADDR: postgres
-      POSTGRES_DB: keycloak
-      POSTGRES_USER: keycloak
-      POSTGRES_PASSWORD: password
+      DB_DATABASE: keycloak
+      DB_USER: keycloak
+      DB_PASSWORD: keycloak
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
       # Uncomment the line below if you want to specify JDBC parameters. The parameter below is just an example, and it shouldn't be used in production without knowledge. It is highly recommended that you read the PostgreSQL JDBC driver documentation in order to use it.

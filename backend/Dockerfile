@@ -6,4 +6,8 @@ RUN mvn clean package -DskipTests
 FROM amazoncorretto:17-al2-full
 WORKDIR /app
 COPY --from=build ./app/target/*.jar backend.jar
+ARG SPRING_DATASOURCE_URL
+ARG KEYCLOAK
+ARG SPRING_DATASOURCE_USERNAME
+ARG SPRING_DATASOURCE_PASSWORD
 ENTRYPOINT ["java", "-jar" ,"backend.jar"]

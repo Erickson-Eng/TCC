@@ -1,11 +1,20 @@
 server:
   port: 8888
 spring:
+  main:
+    allow-bean-definition-overriding: true
   security:
     oauth2:
+      client:
+        registration:
+          sportive-service:
+            authorization-grant-type: client_credentials
+            client-id: sportive-service
+            client-secret: FNmWTRLjSqbrX27FOZVKFNoyaufwE5Qx
       resourceserver:
         jwt:
-          jwk-set-uri: http://${KEYCLOAK_URL}:8080/realms/quattys/protocol/openid-connect/certs
+          jwk-set-uri: http://${KEYCLOAK}:8080/realms/quattys/protocol/openid-connect/certs
+          issuer-uri: http://${KEYCLOAK}:8080/realms/quattys
   datasource:
     url: ${SPRING_DATASOURCE_URL}
     username: ${SPRING_DATASOURCE_USERNAME}
@@ -21,3 +30,11 @@ spring:
     encoding: UTF-8
     validate-on-migrate: true
     enabled: false
+
+
+keycloak:
+  auth-server-url: http://${KEYCLOAK}:8080/auth
+  realm: quattys
+  resource: sportive-service
+  credentials:
+    secret: FNmWTRLjSqbrX27FOZVKFNoyaufwE5Qx
