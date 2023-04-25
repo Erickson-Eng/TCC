@@ -34,11 +34,11 @@ services:
 
 
   postgres:
-    image: postgres:10
+    image: postgres:14
     container_name: db_keycloak
     ports:
       - "5433:5432"
-    restart: always
+    restart: on-failure
     volumes:
       - postgres_data:/var/lib/postgresql/data
     environment:

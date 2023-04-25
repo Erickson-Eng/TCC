@@ -43,14 +43,15 @@ public class ProjectSecurityConfig {
                         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
                 .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
                 .authorizeHttpRequests()
-                .requestMatchers("/api/v1/athlete").hasAnyRole(ROLES[0], ROLES[1])
-                .requestMatchers("/api/v1/locale").hasAnyRole(ROLES[0], ROLES[1], ROLES[2])
-                .requestMatchers("/api/v1/booking").hasAnyRole( ROLES[1], ROLES[2], "COMMUNITY_MANAGER")
-                .requestMatchers("/api/v1/community").hasAnyRole(ROLES[0], ROLES[1])
-                .requestMatchers("/api/v1/gym").hasAnyRole(ROLES[1], ROLES[2])
-                .requestMatchers("/api/v1/membership").hasAnyRole("COMMUNITY_MANAGER", ROLES[1])
-                .requestMatchers("/api/v1/practicable").hasAnyRole(ROLES[2], ROLES[1])
-                .requestMatchers("/api/v1/sport").hasRole(ROLES[1])
+                .requestMatchers("/api/v1/athlete").hasAnyRole("ATHLETE", "ADMIN")
+                .requestMatchers("/api/v1/locale").hasAnyRole("ATHLETE", "ADMIN", "MANAGER")
+                .requestMatchers("/api/v1/booking").hasAnyRole( "ADMIN", "MANAGER", "COMMUNITY_MANAGER")
+                .requestMatchers("/api/v1/community").hasAnyRole("ATHLETE", "ADMIN")
+                .requestMatchers("/api/v1/gym").hasAnyRole("MANAGER", "ADMIN")
+                .requestMatchers("/api/v1/membership").hasAnyRole("COMMUNITY_MANAGER", "ADMIN")
+                .requestMatchers("/api/v1/practicable").hasAnyRole("MANAGER", "ADMIN")
+                .requestMatchers("/api/v1/sport").hasRole("ADMIN")
+                .requestMatchers("/api/v1/user").permitAll()
                 .and().oauth2ResourceServer().jwt().jwtAuthenticationConverter(jwtAuthenticationConverter);
         return http.build();
     }
