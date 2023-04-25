@@ -21,3 +21,9 @@ spring:
     encoding: UTF-8
     validate-on-migrate: true
     enabled: false
+keycloak:
+  auth-server-url: http://${KEYCLOAK_URL}:8080/
+  realm: quattys
+  resource: sportive-service
+  credentials:
+    secret: w4XTkziaY6Jkh325AZknbSufWHu7IKcq

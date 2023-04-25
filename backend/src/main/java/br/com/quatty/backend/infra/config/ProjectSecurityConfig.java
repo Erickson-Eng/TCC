@@ -50,6 +50,7 @@ public class ProjectSecurityConfig {
                 .requestMatchers("/api/v1/membership").hasAnyRole("COMMUNITY_MANAGER", "ADMIN")
                 .requestMatchers("/api/v1/practicable").hasAnyRole("MANAGER", "ADMIN")
                 .requestMatchers("/api/v1/sport").hasRole("ADMIN")
+                .requestMatchers("/api/v1/user").permitAll()
                 .and().oauth2ResourceServer().jwt().jwtAuthenticationConverter(jwtAuthenticationConverter);
         return http.build();
     }
