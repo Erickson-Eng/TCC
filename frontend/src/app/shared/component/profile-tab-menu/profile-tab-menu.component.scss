@@ -1,0 +1,47 @@
+.cabeçalho {
+  display: flex;
+  justify-content: center;
+
+  .header {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 0.5em;
+
+    .tab-menu{
+      width: 80%;
+    }
+    .card-logo {
+      padding: 1em 0;
+    }
+    .card-header {
+      width: 80%;
+      display: flex;
+      flex-direction: column;
+      justify-self: center;
+      align-items: center;
+      .divisor-horizontal {
+        width: 100%;
+        color: #fff;
+        border-bottom: 1px solid #ccc;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 600px) {
+  .cabeçalho {
+    min-width: 320px;
+
+    .header {
+      max-width: 600px;
+
+      .card-logo {
+        padding-top: 2em;
+        padding-bottom: 1em;
+      }
+    }
+  }
+}

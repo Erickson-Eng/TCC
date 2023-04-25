@@ -13,5 +13,10 @@ public class MembershipFilterParams {
 
     private Long athleteId;
     private Long communityId;
-    private String membershipStatus;
+    private String applicationState;
+
+    private int page;
+    private int size;
+    private String sortField;
+    private String sortOrder;
 }

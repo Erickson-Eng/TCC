@@ -1,7 +1,7 @@
 package br.com.quatty.backend.api.controller;
 
 import br.com.quatty.backend.api.dto.filter.AthleteFilterParams;
-import br.com.quatty.backend.api.dto.request.AthleteRequest;
+import br.com.quatty.backend.api.dto.request.ProfileRequest;
 import br.com.quatty.backend.api.dto.response.AthleteResponse;
 import br.com.quatty.backend.api.dto.table.AthleteTableResponse;
 import br.com.quatty.backend.business.service.AthleteService;
@@ -22,14 +22,14 @@ public class AthleteController {
     private AthleteService athleteService;
 
     @PostMapping
-    public ResponseEntity<AthleteResponse> createAthlete(@RequestBody @Valid AthleteRequest athleteRequest){
+    public ResponseEntity<AthleteResponse> createAthlete(@RequestBody @Valid ProfileRequest athleteRequest){
         var athlete = athleteService.createAthlete(athleteRequest);
         URI uri = URI.create(athlete.getId().toString());
         return ResponseEntity.created(uri).body(athlete);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<AthleteResponse> updateInfo(@RequestBody @Valid AthleteRequest athleteRequest,
+    public ResponseEntity<AthleteResponse> updateInfo(@RequestBody @Valid ProfileRequest athleteRequest,
                                                       @PathVariable Long id){
         var athlete = athleteService.updateAthleteInfo(id, athleteRequest);
         return ResponseEntity.ok().body(athlete);

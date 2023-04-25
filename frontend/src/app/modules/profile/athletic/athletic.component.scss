@@ -1,0 +1,53 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  .card {
+    width: 100%;
+    padding: 1rem 0;
+
+    form {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+
+      .upload-file {
+        width: 100%;
+        display: flex;
+        justify-items: flex-start;
+
+        padding-bottom: 1em;
+      }
+
+      .input-field {
+        width: 40%;
+        padding: 0 0.5em;
+      }
+      .buttons {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        button {
+          color: #fff;
+          width: 40%;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 600px) {
+  .container {
+    min-width: 320px;
+
+    .card {
+      max-width: 600px;
+    }
+  }
+}

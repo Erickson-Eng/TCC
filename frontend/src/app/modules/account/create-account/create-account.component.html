@@ -1,0 +1,75 @@
+<div class="container">
+  <div class="card">
+    <div class="card-logo">
+      <a routerLink="/login">
+        <img src="../../../../assets/image/Logo.svg" alt="logo" />
+      </a>
+      <h2 class="divisor-horizontal">Create account</h2>
+    </div>
+    <form action="">
+      <mat-form-field appearance="outline" class="input-field">
+        <mat-label>Username</mat-label>
+        <input matInput placeholder="insert you username" required />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="input-field">
+        <mat-label>Enter your email</mat-label>
+        <input matInput placeholder="pat@example.com" required />
+        <mat-error *ngIf="email.invalid">{{ getErrorMessage() }}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="input-field">
+        <mat-label>Password</mat-label>
+        <input
+          matInput
+          [type]="hidePassword ? 'password' : 'text'"
+          placeholder="insert you password"
+          required
+        />
+        <button
+          type="button"
+          mat-icon-button
+          matSuffix
+          (click)="hidePassword = !hidePassword"
+          [attr.aria-label]="'Hide password'"
+          [attr.aria-pressed]="hidePassword"
+        >
+          <mat-icon>{{
+            hidePassword ? "visibility_off" : "visibility"
+          }}</mat-icon>
+        </button>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="input-field">
+        <mat-label>Password</mat-label>
+        <input
+          matInput
+          [type]="hideConfirmPassword ? 'password' : 'text'"
+          placeholder="insert you password"
+          required
+        />
+        <button
+          type="button"
+          mat-icon-button
+          matSuffix
+          (click)="hideConfirmPassword = !hideConfirmPassword"
+          [attr.aria-label]="'Hide password'"
+          [attr.aria-pressed]="hideConfirmPassword"
+        >
+          <mat-icon>{{
+            hideConfirmPassword ? "visibility_off" : "visibility"
+          }}</mat-icon>
+        </button>
+      </mat-form-field>
+      <section>
+        <mat-checkbox class="example-margin" color="primary"
+          >Declaro que li e aceito todos os termos de uso do
+          serviço.</mat-checkbox
+        >
+      </section>
+      <button type="submit" mat-raised-button color="primary">
+        Create Account
+      </button>
+    </form>
+  </div>
+</div>

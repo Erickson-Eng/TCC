@@ -17,6 +17,8 @@ public class BookingResponse {
 
     private Long gymId;
     private String gymName;
+
+    private String applicationState;
     private Long communityId;
     private String communityName;
     private String createdDate;

@@ -32,7 +32,9 @@ public class SportServicePostgresql implements SportService {
     @Override
     public SportResponse updateSport(Long id, SportRequest sportRequest) {
         var entity = verifyIfExist(id);
-        return null;
+        entity = sportMapper.updateSportValues(entity, sportRequest);
+        entity = sportRepository.save(entity);
+        return sportMapper.entityToSportResponse(entity);
     }
 
     private Sport verifyIfExist(Long id) {

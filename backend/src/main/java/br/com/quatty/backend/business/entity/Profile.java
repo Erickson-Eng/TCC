@@ -23,7 +23,7 @@ import java.time.LocalDateTime;
 @SuperBuilder
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @EntityListeners(AuditingEntityListener.class)
-public class Profile implements Serializable {
+public abstract class Profile implements Serializable {
     @Serial
     private static final long serialVersionUID = -5491102604750413133L;
     @Id
