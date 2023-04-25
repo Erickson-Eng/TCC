@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -17,13 +19,8 @@ public class AthleteResponse {
     private String socialName;
     private String birthDate;
     private String cpf;
-    private Double weight;
-    private Double height;
-    private Double bicepsMeasurement;
-    private Double forearmMeasurement;
-    private Double chestMeasurement;
-    private Double thighMeasurement;
-    private Double calfMeasurement;
     @JsonProperty("locale")
     private LocaleResponse localeResponse;
+
+    private List<BodyMeasureResponse> bodyMeasureList;
 }

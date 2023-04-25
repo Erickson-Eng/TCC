@@ -1,6 +1,6 @@
 package br.com.quatty.backend.business.entity;
 
-import br.com.quatty.backend.business.entity.enums.MembershipStatus;
+import br.com.quatty.backend.business.entity.enums.ApplicationState;
 import br.com.quatty.backend.business.entity.pk.MembershipPK;
 import jakarta.persistence.*;
 import lombok.*;
@@ -13,7 +13,6 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -40,7 +39,7 @@ public class Membership implements Serializable {
     private Community community;
 
     @Enumerated(EnumType.STRING)
-    private MembershipStatus membershipStatus;
+    private ApplicationState applicationState;
 
     @Column(name = "created_date", nullable = false, updatable = false)
     @CreatedDate
@@ -58,7 +57,7 @@ public class Membership implements Serializable {
     @LastModifiedBy
     private String modifiedBy;
 
-    public void setMembershipStatus(String membershipStatus) {
-        this.membershipStatus = MembershipStatus.getMembershipStatus(membershipStatus);
+    public void setApplicationState(String membershipStatus) {
+        this.applicationState = ApplicationState.getApplicationState(membershipStatus);
     }
 }

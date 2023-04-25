@@ -7,6 +7,9 @@ import org.springframework.stereotype.Component;
 public class ThreadLocalHolder {
     private static final ThreadLocal<Authentication> AUTHENTICATION_THREAD_LOCAL = new ThreadLocal<>();
 
+    private ThreadLocalHolder() {
+    }
+
     public static void setAuthentication(Authentication authentication) {
         AUTHENTICATION_THREAD_LOCAL.set(authentication);
     }

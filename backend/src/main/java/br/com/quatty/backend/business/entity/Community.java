@@ -35,7 +35,7 @@ public class Community implements Serializable {
     private String description;
 
     @Column(name = "community_rules", columnDefinition = "TEXT")
-    private String community_rules;
+    private String communityRules;
     @OneToMany(mappedBy = "community")
     @ToString.Exclude
     private Set<Membership> membershipSet;

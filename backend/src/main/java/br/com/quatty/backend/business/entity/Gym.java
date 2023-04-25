@@ -35,6 +35,12 @@ public class Gym implements Serializable {
     @OneToOne(cascade = {CascadeType.REFRESH}, orphanRemoval = true)
     private Locale locale;
 
+    @Column(length = 150, nullable = false)
+    private String shortDescription;
+
+    @ManyToOne(cascade = CascadeType.REFRESH)
+    private Manager manager;
+
     @OneToMany(mappedBy = "gym")
     @ToString.Exclude
     private Set<Practicable> practicableSet;
