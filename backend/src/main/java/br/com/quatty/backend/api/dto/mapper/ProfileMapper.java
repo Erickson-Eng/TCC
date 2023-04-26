@@ -15,12 +15,11 @@ public interface ProfileMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdDate", ignore = true)
     @Mapping(target = "modifiedDate", ignore = true)
-    @Mapping(target = "createdBy", ignore = true)
-    @Mapping(target = "modifiedBy", ignore = true)
     @Mapping(target = "attendanceList", ignore = true)
     @Mapping(target = "membershipSet", ignore = true)
     @Mapping(target = "bodyMeasures", ignore = true)
-    @Mapping(target = "locale.id", source = "localeId")
+    @Mapping(target = "locale", source = "localeRequest")
+    @Mapping(target = "user.id", source = "userId")
     Athlete athleteRequestToEntity(ProfileRequest profileRequest);
 
     @Mapping(target = "localeResponse", source = "locale")
@@ -31,8 +30,6 @@ public interface ProfileMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdDate", ignore = true)
     @Mapping(target = "modifiedDate", ignore = true)
-    @Mapping(target = "createdBy", ignore = true)
-    @Mapping(target = "modifiedBy", ignore = true)
     @Mapping(target = "attendanceList", ignore = true)
     @Mapping(target = "membershipSet", ignore = true)
     @Mapping(target = "bodyMeasures", ignore = true)
@@ -42,10 +39,9 @@ public interface ProfileMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdDate", ignore = true)
     @Mapping(target = "modifiedDate", ignore = true)
-    @Mapping(target = "createdBy", ignore = true)
-    @Mapping(target = "modifiedBy", ignore = true)
-    @Mapping(target = "locale.id", source = "localeId")
     @Mapping(target = "gyms", ignore = true)
+    @Mapping(target = "locale", source = "localeRequest")
+    @Mapping(target = "user.id", source = "userId")
     Manager createManagerFromProfileDTO(ProfileRequest profileRequest);
 
     @Mapping(target = "localeResponse", source =  "locale")

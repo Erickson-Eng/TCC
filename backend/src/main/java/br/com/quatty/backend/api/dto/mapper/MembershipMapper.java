@@ -21,7 +21,7 @@ public interface MembershipMapper {
     Membership membershipRequestToEntity(MembershipRequest membershipRequest);
 
     @Mapping(target = "athleteId", source = "athlete.id")
-    @Mapping(target = "athleteName", source = "athlete.fullName")
+    @Mapping(target = "athleteName", source = "athlete.firstName")
     @Mapping(target = "communityId", source = "community.id")
     @Mapping(target = "communityName", source = "community.name")
     @Mapping(target = "applicationState", source = "applicationState")

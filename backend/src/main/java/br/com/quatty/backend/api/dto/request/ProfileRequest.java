@@ -1,12 +1,14 @@
 package br.com.quatty.backend.api.dto.request;
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.br.CPF;
 
 @Data
 @Builder
@@ -14,12 +16,16 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ProfileRequest {
 
-    @NotBlank(message = "Athlete name is required")
-    private String fullName;
+    @NotBlank(message = "First name is required")
+    private String firstName;
+    @NotBlank(message = "Last name is required")
+    private String lastName;
     private String socialName;
     private String birthDate;
-    @NotNull(message = "The athlete's CPF is mandatory")
+    @CPF(message = "enter the cpf in the pattern 000.000.000-00")
     private String cpf;
-    @NotNull(message = "It is necessary to inform the id of the location")
-    private Long localeId;
+    @Valid
+    @JsonProperty("locale")
+    private LocaleRequest localeRequest;
+    private Long userId;
 }

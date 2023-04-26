@@ -12,8 +12,12 @@ import java.util.Arrays;
 public class DatabaseInit implements CommandLineRunner {
 
     protected static final String[] CONSTANTS = {"Campina Grande", "Paraíba", "Erickson"};
+    private final LocaleRepository localeRepository;
     @Autowired
-    private LocaleRepository localeRepository;
+    public DatabaseInit(LocaleRepository localeRepository) {
+        this.localeRepository = localeRepository;
+    }
+
     @Override
     public void run(String... args) throws Exception {
         Locale locale = Locale.builder().street("Antonio cirilo").city(CONSTANTS[0]).number("10").zipCode("1").state(CONSTANTS[1]).build();

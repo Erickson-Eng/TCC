@@ -2,49 +2,44 @@ package br.com.quatty.backend.business.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import lombok.experimental.SuperBuilder;
-import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.io.Serial;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @ToString
 @Entity
-@SuperBuilder
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Table(name = "application_user")
 @EntityListeners(AuditingEntityListener.class)
-public abstract class Profile implements Serializable {
-    @Serial
-    private static final long serialVersionUID = -5491102604750413133L;
+public class User implements Serializable {
+    private static final long serialVersionUID = 4151934542128218029L;
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
+    @Column(unique = true)
+    private String username;
     @Column(nullable = false)
-    private String firstName;
+    private String email;
     @Column(nullable = false)
-    private String lastName;
-    private String socialName;
-    private LocalDate birthDate;
-    private String cpf;
-    @OneToOne(cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.PERSIST})
-    private Locale locale;
-    @OneToOne(cascade = {CascadeType.REFRESH, CascadeType.DETACH})
-    private User user;
+    private Boolean enable;
+    @Column(unique = true,
+    nullable = false,
+    columnDefinition = "uuid")
+    private UUID keycloakId;
 
     @Column(name = "created_date", nullable = false, updatable = false)
     @CreatedDate
     private LocalDateTime createdDate;
+
     @Column(name = "modified_date")
     @LastModifiedDate
     private LocalDateTime modifiedDate;
