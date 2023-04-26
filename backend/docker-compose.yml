@@ -20,6 +20,9 @@ services:
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=postgres
       - KEYCLOAK_URL=keycloak
+      - REALM=quattys
+      - RESOURCE_SERVICE=sportive-service
+      - RESOURCE_SERVICE_CLIENT=nHv3hAUfxnjz66GMHbjWZG4GKGHFF2zW
 
   db_backend:
     image: postgres:14

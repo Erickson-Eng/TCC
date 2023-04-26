@@ -15,7 +15,8 @@ import java.util.List;
 public class AthleteResponse {
 
     private Long id;
-    private String fullName;
+    private String firstName;
+    private String lastName;
     private String socialName;
     private String birthDate;
     private String cpf;
