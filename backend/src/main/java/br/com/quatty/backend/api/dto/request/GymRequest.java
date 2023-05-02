@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -18,4 +20,9 @@ public class GymRequest {
     private String rules;
     @NotNull(message = "It is necessary to inform the id of the location")
     private Long localeId;
+
+    @NotNull(message = "descrição necessaria para o card")
+    private String shortDescription;
+
+    private List<Long> sportPracticable;
 }

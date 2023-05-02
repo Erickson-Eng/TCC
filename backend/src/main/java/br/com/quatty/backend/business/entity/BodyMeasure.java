@@ -6,6 +6,7 @@ import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -19,6 +20,7 @@ import java.time.LocalDateTime;
 @ToString
 @Entity
 @Table(name = "body_measure")
+@EntityListeners(AuditingEntityListener.class)
 public class BodyMeasure implements Serializable {
     @Serial
     private static final long serialVersionUID = -7821452109500248575L;

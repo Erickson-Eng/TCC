@@ -17,4 +17,5 @@ public class MembershipRequest {
     @NotNull(message = "community id is mandatory")
     private Long communityId;
     private String applicationState;
+    private String communityProfile;
 }

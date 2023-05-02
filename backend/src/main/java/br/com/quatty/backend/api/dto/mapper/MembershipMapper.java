@@ -13,6 +13,8 @@ public interface MembershipMapper {
 
     @Mapping(target = "athlete.id", source = "athleteId")
     @Mapping(target = "community.id", source = "communityId")
+    @Mapping(target = "membershipPK.athleteId", source = "athleteId")
+    @Mapping(target = "membershipPK.communityId", source = "communityId")
     @Mapping(target = "applicationState", source = "applicationState")
     @Mapping(target = "createdDate", ignore = true)
     @Mapping(target = "modifiedDate", ignore = true)

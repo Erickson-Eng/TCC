@@ -4,7 +4,9 @@ import br.com.quatty.backend.business.service.KeycloakService;
 import br.com.quatty.backend.infra.config.keycloak.KeycloakProperties;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.KeycloakBuilder;
+import org.keycloak.admin.client.resource.UserResource;
 import org.keycloak.representations.idm.CredentialRepresentation;
+import org.keycloak.representations.idm.RoleRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.stereotype.Service;
 
@@ -53,6 +55,14 @@ public class KeycloakServicePostgres implements KeycloakService {
         keycloak.realm(keycloakProperties.getRealm()).users().get(id).resetPassword(credentialRepresentation);
     }
 
+    @Override
+    public void addRealmRoleToUser(String userId, String roleName) {
+        UserResource userResource = keycloak.realm(keycloakProperties.getRealm()).users().get(userId);
+        List<RoleRepresentation> representations = keycloak.realms().realm(keycloakProperties.getRealm()).roles().list();
+        List<RoleRepresentation> roles = representations.stream().filter(role -> role.getName().equalsIgnoreCase(roleName)).toList();
+        userResource.roles().realmLevel().add(roles);
+    }
+
     private UserRepresentation createUserRepresentation(String username, String email, String password,
                                                         String firstName, String lastName, String realmRole) {
         UserRepresentation user = new UserRepresentation();
@@ -70,9 +80,17 @@ public class KeycloakServicePostgres implements KeycloakService {
 
     private CredentialRepresentation createPasswordCredential(String password) {
         CredentialRepresentation credential = new CredentialRepresentation();
+        if (!isPasswordStrong(password)){
+            throw new IllegalArgumentException("The password does not follow the rules.");
+        }
         credential.setType(CredentialRepresentation.PASSWORD);
         credential.setValue(password);
         credential.setTemporary(false);
         return credential;
+    }
+
+    protected boolean isPasswordStrong(String password) {
+        String pattern = "(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@#$%!]).{8,}";
+        return password.matches(pattern);
     }
 }

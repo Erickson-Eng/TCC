@@ -22,7 +22,7 @@ services:
       - KEYCLOAK_URL=keycloak
       - REALM=quattys
       - RESOURCE_SERVICE=sportive-service
-      - RESOURCE_SERVICE_CLIENT=nHv3hAUfxnjz66GMHbjWZG4GKGHFF2zW
+      - RESOURCE_SERVICE_CLIENT=vZh8oxayqf5gLrUaTRlZFsL82Z60nhsh
 
   db_backend:
     image: postgres:14
@@ -50,7 +50,7 @@ services:
       - POSTGRES_DB=keycloak
 
   keycloak:
-    image: quay.io/keycloak/keycloak:20.0.3
+    image: quay.io/keycloak/keycloak:21.1.1
     command:
       - start-dev
     environment:

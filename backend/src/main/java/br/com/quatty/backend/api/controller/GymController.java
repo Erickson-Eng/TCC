@@ -9,7 +9,6 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -21,7 +20,6 @@ public class GymController {
 
     private GymService gymService;
 
-    @Secured({"ROLE_ADMIN", "ROLE_MANAGER"})
     @PostMapping
     public ResponseEntity<GymResponse> createGym(@RequestBody @Valid GymRequest gymRequest){
         var gym  = gymService.createGym(gymRequest);
@@ -29,7 +27,6 @@ public class GymController {
         return ResponseEntity.created(uri).body(gym);
     }
 
-    @Secured({"ROLE_ADMIN", "ROLE_MANAGER"})
     @PutMapping("/{id}")
     public ResponseEntity<GymResponse> updateGymInfo(@PathVariable Long id,
                                                      @RequestBody GymRequest gymRequest){
@@ -43,7 +40,6 @@ public class GymController {
         return ResponseEntity.ok().body(gymList);
     }
 
-    @Secured({"ROLE_ADMIN"})
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteGymById(@PathVariable Long id){
         gymService.deleteGym(id);

@@ -1,11 +1,8 @@
 package br.com.quatty.backend.business.service.postgres;
 
-import br.com.quatty.backend.api.dto.mapper.LocaleMapper;
 import br.com.quatty.backend.api.dto.mapper.UserMapper;
 import br.com.quatty.backend.api.dto.request.UserRequest;
-import br.com.quatty.backend.api.dto.response.LocaleResponse;
 import br.com.quatty.backend.api.dto.response.UserResponse;
-import br.com.quatty.backend.business.entity.Locale;
 import br.com.quatty.backend.business.entity.User;
 import br.com.quatty.backend.business.service.*;
 import br.com.quatty.backend.business.service.exception.DatabaseViolationException;
@@ -16,8 +13,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @AllArgsConstructor(onConstructor = @__(@Autowired))
@@ -50,9 +46,11 @@ public class UserServicePostgres implements UserService {
                 if (userRequest.getProfileType().equalsIgnoreCase("Athlete")) {
                     userRequest.getProfileRequest().setUserId(user.getId());
                     athleteService.createAthlete(userRequest.getProfileRequest());
+                    keycloakService.addRealmRoleToUser(keycloakId, "ATHLETE");
                 } else if (userRequest.getProfileType().equalsIgnoreCase("Manager")) {
                     userRequest.getProfileRequest().setUserId(user.getId());
                     managerService.createManager(userRequest.getProfileRequest());
+                    keycloakService.addRealmRoleToUser(keycloakId, "MANAGER");
                 }
                 return userMapper.entityToUserResponse(user);
             } else {

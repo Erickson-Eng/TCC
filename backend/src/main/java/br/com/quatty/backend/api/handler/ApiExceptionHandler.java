@@ -1,5 +1,6 @@
 package br.com.quatty.backend.api.handler;
 
+import br.com.quatty.backend.business.service.exception.DatabaseViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -43,6 +44,18 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(value = {IllegalArgumentException.class})
     protected ResponseEntity<Object> handleIllegalArgumentException(IllegalArgumentException e){
         HttpStatus badRequest = HttpStatus.BAD_REQUEST;
+        ApiError apiError = ApiError.builder()
+                .httpStatus(badRequest)
+                .message(e.getMessage())
+                .timeStamp(ZonedDateTime.now(ZoneId.of("Z")))
+                .build();
+
+        return new ResponseEntity<>(apiError, badRequest);
+    }
+
+    @ExceptionHandler(value = {DatabaseViolationException.class})
+    protected ResponseEntity<ApiError> handleDatabaseViolationException(DatabaseViolationException e){
+        HttpStatus badRequest = HttpStatus.CONFLICT;
         ApiError apiError = ApiError.builder()
                 .httpStatus(badRequest)
                 .message(e.getMessage())

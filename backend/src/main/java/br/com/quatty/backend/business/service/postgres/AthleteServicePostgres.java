@@ -93,8 +93,18 @@ public class AthleteServicePostgres implements AthleteService {
         athleteRepository.delete(entity);
     }
 
+    @Override
+    public Athlete findAthleteByUsername(String username) {
+        return verifyIfExist(username);
+    }
+
     private Athlete verifyIfExist(Long id){
         return athleteRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(MessageFormat.format("Error locating {} in database from id {}", Athlete.class.getName(), id)));
+    }
+
+    private Athlete verifyIfExist(String username){
+        return athleteRepository.findAthleteByUserUsername(username)
+                .orElse(new Athlete());
     }
 }

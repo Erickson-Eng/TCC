@@ -6,6 +6,7 @@ import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -19,6 +20,7 @@ import java.time.LocalDateTime;
 @ToString
 @Entity
 @Table(name = "locale")
+@EntityListeners(AuditingEntityListener.class)
 public class Locale implements Serializable {
     @Serial
     private static final long serialVersionUID = 6150196398043009177L;

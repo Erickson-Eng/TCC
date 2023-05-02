@@ -6,4 +6,6 @@ public interface KeycloakService {
                       String firstName, String lastName, String realmRole);
 
     void updatePassword(String id, String password);
+
+    void addRealmRoleToUser(String userId, String roleName);
 }

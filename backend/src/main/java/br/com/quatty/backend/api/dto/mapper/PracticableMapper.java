@@ -12,6 +12,8 @@ public interface PracticableMapper {
 
     @Mapping(target = "gym.id", source = "gymId")
     @Mapping(target = "sport.id", source = "sportId")
+    @Mapping(target = "practicablePK.gymId", source = "gymId")
+    @Mapping(target = "practicablePK.sportId", source = "sportId")
     @Mapping(target = "createdDate", ignore = true)
     @Mapping(target = "modifiedDate", ignore = true)
     @Mapping(target = "createdBy", ignore = true)
