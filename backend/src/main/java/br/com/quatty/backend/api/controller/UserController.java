@@ -7,6 +7,7 @@ import br.com.quatty.backend.business.service.UserService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +22,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<UserResponse> createSport(@RequestBody @Valid UserRequest userRequest){
         UserResponse userResponse = userService.createUser(userRequest);
         URI uri = URI.create(userResponse.getId().toString());

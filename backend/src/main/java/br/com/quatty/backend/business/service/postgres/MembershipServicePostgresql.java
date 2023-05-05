@@ -11,7 +11,9 @@ import br.com.quatty.backend.business.entity.Membership;
 import br.com.quatty.backend.business.entity.enums.ApplicationState;
 import br.com.quatty.backend.business.entity.pk.MembershipPK;
 import br.com.quatty.backend.business.service.MembershipService;
+import br.com.quatty.backend.business.service.exception.MembershipException;
 import br.com.quatty.backend.business.service.exception.EntityNotFoundException;
+import br.com.quatty.backend.business.service.keycloak.KeycloakServicePostgres;
 import br.com.quatty.backend.infra.repository.MembershipRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -24,6 +26,7 @@ import org.springframework.stereotype.Service;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -44,6 +47,14 @@ public class MembershipServicePostgresql implements MembershipService {
 
     @Override
     public MembershipResponse updateMembershipInfo(MembershipRequest membershipRequest) {
+        String loggedUser = KeycloakServicePostgres.getCurrentUserId();
+        List<Membership> memberships = getAllMembershipForUsername(loggedUser).stream()
+                .filter(value ->
+                        value.getCommunityProfile().isCanApproveRecruitment() &&
+                        value.getCommunity().getId().equals(membershipRequest.getCommunityId())).toList();
+        if (memberships.isEmpty()){
+            throw new MembershipException("Não foi possivel realizar alteração devido a não possuir as credenciais necessárias");
+        }
         Membership membership = verifyIfExist(membershipRequest.getAthleteId(), membershipRequest.getCommunityId());
         membershipMapper.updateMembershipValues(membership, membershipRequest);
         membership = membershipRepository.save(membership);
@@ -100,6 +111,15 @@ public class MembershipServicePostgresql implements MembershipService {
         return membershipRepository.findById(membershipPK)
                 .orElseThrow(() -> new EntityNotFoundException(MessageFormat.format("Error locating {} in database from Athlete id: {}, Community id: {}",
                         Membership.class.getName(), athleteId, communityId)));
+    }
+
+    private Optional<Membership> getMembership(Long athleteId, Long communityId){
+        var membershipPK = MembershipPK.builder().athleteId(athleteId).communityId(communityId).build();
+        return membershipRepository.findById(membershipPK);
+    }
+
+    private List<Membership> getAllMembershipForUsername(String username){
+        return membershipRepository.findAllMembershipByUsername(username);
     }
 
 }

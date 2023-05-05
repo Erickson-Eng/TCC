@@ -8,6 +8,7 @@ import br.com.quatty.backend.api.dto.table.AthleteTableResponse;
 import br.com.quatty.backend.business.entity.Athlete;
 import br.com.quatty.backend.business.service.AthleteService;
 
+import br.com.quatty.backend.business.service.exception.DatabaseViolationException;
 import br.com.quatty.backend.business.service.exception.EntityNotFoundException;
 import br.com.quatty.backend.infra.repository.AthleteRepository;
 import jakarta.persistence.EntityManager;
@@ -43,7 +44,7 @@ public class AthleteServicePostgres implements AthleteService {
             entity = athleteRepository.save(entity);
             return athleteMapper.entityToAthleteResponse(entity);
         } catch (DataIntegrityViolationException e){
-            throw new DataIntegrityViolationException("Não foi possível salvar");
+            throw new DatabaseViolationException("Não foi possível salvar");
         }
     }
 

@@ -7,14 +7,14 @@ import br.com.quatty.backend.api.dto.response.CommunityResponse;
 import br.com.quatty.backend.api.dto.table.CommunityTableResponse;
 import br.com.quatty.backend.business.entity.Athlete;
 import br.com.quatty.backend.business.entity.Community;
+import br.com.quatty.backend.business.entity.User;
 import br.com.quatty.backend.business.entity.enums.ApplicationState;
 import br.com.quatty.backend.business.entity.enums.CommunityProfile;
-import br.com.quatty.backend.business.service.AthleteService;
-import br.com.quatty.backend.business.service.CommunityService;
-import br.com.quatty.backend.business.service.MembershipService;
+import br.com.quatty.backend.business.service.*;
 import br.com.quatty.backend.business.service.exception.DatabaseViolationException;
 import br.com.quatty.backend.business.service.exception.EntityNotFoundException;
 import br.com.quatty.backend.infra.repository.CommunityRepository;
+import br.com.quatty.backend.infra.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -22,15 +22,18 @@ import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class CommunityServicePostgresql implements CommunityService {
 
+    private UserRepository userRepository;
     private AthleteService athleteService;
     private MembershipService membershipService;
     private CommunityRepository communityRepository;
     private CommunityMapper communityMapper;
+    private KeycloakService keycloakService;
 
     @Override
     public CommunityResponse createCommunity(CommunityRequest communityRequest) {
@@ -49,6 +52,10 @@ public class CommunityServicePostgresql implements CommunityService {
                         .build();
 
                 membershipService.applyOnCommunity(request);
+
+                Optional<User> user = userRepository.findByUsername(entity.getCreatedBy());
+                user.ifPresent(value -> keycloakService.addRealmRoleToUser(value.getKeycloakId().toString(), "COMMUNITY_MANAGER"));
+
             }
             return communityMapper.entityToCommunityResponse(entity);
         } catch (DataIntegrityViolationException e){

@@ -9,6 +9,8 @@ public interface BookingService {
 
     BookingResponse createBooking(BookingRequest bookingRequest);
 
+    BookingResponse updateStatusForBooking(Long id, BookingRequest bookingRequest);
+
     void deleteBooking(Long id);
 
     BookingTableResponse findBookingByParams(BookingFilterParams bookingFilterParams);

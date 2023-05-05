@@ -1,5 +1,6 @@
 package br.com.quatty.backend.api.handler;
 
+import br.com.quatty.backend.business.service.exception.MembershipException;
 import br.com.quatty.backend.business.service.exception.DatabaseViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -56,6 +57,18 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(value = {DatabaseViolationException.class})
     protected ResponseEntity<ApiError> handleDatabaseViolationException(DatabaseViolationException e){
         HttpStatus badRequest = HttpStatus.CONFLICT;
+        ApiError apiError = ApiError.builder()
+                .httpStatus(badRequest)
+                .message(e.getMessage())
+                .timeStamp(ZonedDateTime.now(ZoneId.of("Z")))
+                .build();
+
+        return new ResponseEntity<>(apiError, badRequest);
+    }
+
+    @ExceptionHandler(value = {MembershipException.class})
+    protected ResponseEntity<ApiError> handleCommunityException(MembershipException e){
+        HttpStatus badRequest = HttpStatus.FORBIDDEN;
         ApiError apiError = ApiError.builder()
                 .httpStatus(badRequest)
                 .message(e.getMessage())

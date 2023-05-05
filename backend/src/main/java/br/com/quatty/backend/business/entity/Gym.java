@@ -35,6 +35,7 @@ public class Gym implements Serializable {
     @Column(columnDefinition = "TEXT")
     private String rules;
     @OneToOne(cascade = {CascadeType.REFRESH}, orphanRemoval = true)
+    @JoinColumn(unique = true)
     private Locale locale;
 
     @Column(length = 150, nullable = false)

@@ -1,5 +1,8 @@
 package br.com.quatty.backend.business.entity.enums;
 
+import java.util.Arrays;
+import java.util.List;
+
 public enum CommunityProfile {
     ADMINISTRATOR("ADMINISTRATOR", true, true, true, true),
     MODERATOR("MODERATOR", false, true, true, false),
@@ -47,5 +50,10 @@ public enum CommunityProfile {
                 return value;
         }
         throw new IllegalArgumentException("Invalid code");
+    }
+
+    public static List<String> getAllCommunityProfiles(){
+        return Arrays.stream(CommunityProfile.values())
+                .map(CommunityProfile::getCode).toList();
     }
 }

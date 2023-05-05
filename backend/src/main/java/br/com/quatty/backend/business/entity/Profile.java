@@ -38,8 +38,10 @@ public abstract class Profile implements Serializable {
     private LocalDate birthDate;
     private String cpf;
     @OneToOne(cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.PERSIST})
+    @JoinColumn(unique = true)
     private Locale locale;
     @OneToOne(cascade = {CascadeType.REFRESH, CascadeType.DETACH})
+    @JoinColumn(unique = true)
     private User user;
 
     @Column(name = "created_date", nullable = false, updatable = false)

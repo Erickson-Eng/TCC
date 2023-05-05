@@ -1,4 +1,8 @@
 package br.com.quatty.backend.business.entity.enums;
+
+import java.util.Arrays;
+import java.util.List;
+
 public enum GymType {
     PUBLIC("PUBLIC"),
     PRIVATE("PRIVATE");
@@ -20,5 +24,10 @@ public enum GymType {
             }
         }
         throw new IllegalArgumentException("Invalid code");
+    }
+
+    public static List<String> getAllGymType(){
+        return Arrays.stream(GymType.values())
+                .map(GymType::getCode).toList();
     }
 }

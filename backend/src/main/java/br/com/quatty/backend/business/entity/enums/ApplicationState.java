@@ -1,5 +1,8 @@
 package br.com.quatty.backend.business.entity.enums;
 
+import java.util.Arrays;
+import java.util.List;
+
 public enum ApplicationState {
     WAITING_FOR_APPROVAL("WAITING_FOR_APPROVAL"),
     APPROVED("APPROVED"),
@@ -23,5 +26,10 @@ public enum ApplicationState {
                 return value;
         }
         throw new IllegalArgumentException("Invalid code");
+    }
+
+    public static List<String> getAllStatus(){
+        return Arrays.stream(ApplicationState.values())
+                .map(ApplicationState::getCode).toList();
     }
 }

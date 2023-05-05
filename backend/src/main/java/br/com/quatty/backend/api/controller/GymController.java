@@ -3,7 +3,9 @@ package br.com.quatty.backend.api.controller;
 import br.com.quatty.backend.api.dto.filter.GymFilterParams;
 import br.com.quatty.backend.api.dto.request.GymRequest;
 import br.com.quatty.backend.api.dto.response.GymResponse;
+import br.com.quatty.backend.api.dto.response.enums.GymTypeResponse;
 import br.com.quatty.backend.api.dto.table.GymTableResponse;
+import br.com.quatty.backend.business.entity.enums.GymType;
 import br.com.quatty.backend.business.service.GymService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -12,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.Arrays;
 
 @RestController
 @RequestMapping("/api/v1/gym")
@@ -38,6 +41,14 @@ public class GymController {
     public ResponseEntity<GymTableResponse> findGymByFilter(GymFilterParams gymFilterParams){
         var gymList = gymService.findGymByFilter(gymFilterParams);
         return ResponseEntity.ok().body(gymList);
+    }
+
+    @GetMapping("/get-params")
+    public ResponseEntity<GymTypeResponse> getGymType(){
+        GymTypeResponse typeResponse = GymTypeResponse.builder()
+                .gymTypeList(GymType.getAllGymType())
+                .build();
+        return ResponseEntity.ok().body(typeResponse);
     }
 
     @DeleteMapping("/{id}")

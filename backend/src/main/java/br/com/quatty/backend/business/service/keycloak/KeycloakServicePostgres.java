@@ -1,14 +1,20 @@
 package br.com.quatty.backend.business.service.keycloak;
 
 import br.com.quatty.backend.business.service.KeycloakService;
+import br.com.quatty.backend.infra.config.ThreadLocalHolder;
 import br.com.quatty.backend.infra.config.keycloak.KeycloakProperties;
+import org.keycloak.KeycloakPrincipal;
+import org.keycloak.KeycloakSecurityContext;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.KeycloakBuilder;
 import org.keycloak.admin.client.resource.UserResource;
 import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.RoleRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.core.Response;
@@ -92,5 +98,23 @@ public class KeycloakServicePostgres implements KeycloakService {
     protected boolean isPasswordStrong(String password) {
         String pattern = "(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@#$%!]).{8,}";
         return password.matches(pattern);
+    }
+
+    public static String getCurrentUserId(){
+        String user = null;
+        Authentication authentication = ThreadLocalHolder.getAuthentication();
+        if (authentication != null && authentication.isAuthenticated()){
+            Object principal = authentication.getPrincipal();
+            if (principal instanceof KeycloakPrincipal<?>){
+                KeycloakPrincipal<KeycloakSecurityContext> keycloakPrincipal = (KeycloakPrincipal<KeycloakSecurityContext>)  principal;
+                KeycloakSecurityContext keycloakSecurityContext = keycloakPrincipal.getKeycloakSecurityContext();
+                String username = keycloakSecurityContext.getIdToken().getPreferredUsername();
+                user = StringUtils.hasText(username)? username : null;
+            } else if (principal instanceof Jwt jwt){
+                String username = jwt.getClaimAsString("preferred_username");
+                user = StringUtils.hasText(username) ? username : null;
+            }
+        }
+        return user;
     }
 }

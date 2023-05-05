@@ -27,6 +27,7 @@ public interface MembershipMapper {
     @Mapping(target = "communityId", source = "community.id")
     @Mapping(target = "communityName", source = "community.name")
     @Mapping(target = "applicationState", source = "applicationState")
+    @Mapping(target = "communityProfile", source = "communityProfile")
     @Mapping(target = "createdDate", dateFormat = "dd/MM/yyyy HH:mm:ss")
     @Mapping(target = "modifiedDate", dateFormat = "dd/MM/yyyy HH:mm:ss")
     MembershipResponse entityToMembershipResponse(Membership membership);

@@ -28,7 +28,8 @@ public class ProjectSecurityConfig {
     private static final String[] PUBLIC_MATCHERS = {
             "/api/v1/sport/**",
             "/api/v1/locale/**",
-            "/api/v1/gym/**"
+            "/api/v1/gym/**",
+            "/api/v1/membership/**",
     };
 
 
@@ -59,14 +60,14 @@ public class ProjectSecurityConfig {
                 .requestMatchers("/api/v1/booking/**").hasAnyRole( ROLE_ADMIN, ROLE_MANAGER, COMMUNITY_MANAGER)
                 .requestMatchers("/api/v1/community/**").hasAnyRole(ROLE_ATHLETE, ROLE_ADMIN)
                 .requestMatchers("/api/v1/gym/**").hasAnyRole(ROLE_MANAGER, ROLE_ADMIN)
-                .requestMatchers("/api/v1/membership/**").hasAnyRole(COMMUNITY_MANAGER, ROLE_ADMIN)
                 .requestMatchers("/api/v1/practicable/**").hasAnyRole(ROLE_MANAGER, ROLE_ADMIN)
+                .requestMatchers(HttpMethod.PUT,"/api/v1/membership/**").hasAnyRole(COMMUNITY_MANAGER, ROLE_ADMIN)
                 .requestMatchers(HttpMethod.POST,"/api/v1/sport").hasRole(ROLE_ADMIN)
                 .requestMatchers(HttpMethod.POST, "/api/v1/locale").hasAnyRole(ROLE_ATHLETE, ROLE_ADMIN, ROLE_MANAGER)
                 .requestMatchers(HttpMethod.PUT, "/api/v1/locale/**").hasAnyRole(ROLE_ATHLETE, ROLE_ADMIN, ROLE_MANAGER)
                 .requestMatchers(HttpMethod.PUT, "/api/v1/sport/**").hasRole(ROLE_ADMIN)
                 .requestMatchers(HttpMethod.GET, PUBLIC_MATCHERS).permitAll()
-                .requestMatchers(HttpMethod.POST,"/api/v1/user").permitAll()
+                .requestMatchers(HttpMethod.POST,"/api/v1/user", "/api/v1/membership/**").permitAll()
                 .and().oauth2ResourceServer().jwt().jwtAuthenticationConverter(jwtAuthenticationConverter);
         return http.build();
     }
