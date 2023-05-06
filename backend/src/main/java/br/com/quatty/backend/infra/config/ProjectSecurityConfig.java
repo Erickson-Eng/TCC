@@ -34,24 +34,27 @@ public class ProjectSecurityConfig {
 
 
 
-            @Bean
+    @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
         CsrfTokenRequestAttributeHandler requestHandler = new CsrfTokenRequestAttributeHandler();
         requestHandler.setCsrfRequestAttributeName("_csrf");
         JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
         jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(new KeycloakRoleConverter());
 
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+        http.sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
                 .cors().configurationSource(request -> {
                     CorsConfiguration config = new CorsConfiguration();
-                    config.setAllowedOrigins(Collections.singletonList("http://localhost:4200"));
+                    config.setAllowedOrigins(Collections.singletonList("*"));
                     config.setAllowedMethods(Collections.singletonList("*"));
-                    config.setAllowCredentials(true);
                     config.setAllowedHeaders(Collections.singletonList("*"));
                     config.setExposedHeaders(List.of("Authorization"));
                     config.setMaxAge(3600L);
                     return config;
-                }).and().csrf(csrf -> csrf.csrfTokenRequestHandler(requestHandler)
+                })
+                .and()
+                .csrf(csrf -> csrf.csrfTokenRequestHandler(requestHandler)
                         .ignoringRequestMatchers("/contact","/api/v1/user")
                         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
                 .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
@@ -68,9 +71,13 @@ public class ProjectSecurityConfig {
                 .requestMatchers(HttpMethod.PUT, "/api/v1/sport/**").hasRole(ROLE_ADMIN)
                 .requestMatchers(HttpMethod.GET, PUBLIC_MATCHERS).permitAll()
                 .requestMatchers(HttpMethod.POST,"/api/v1/user", "/api/v1/membership/**").permitAll()
-                .and().oauth2ResourceServer().jwt().jwtAuthenticationConverter(jwtAuthenticationConverter);
+                .and()
+                .oauth2ResourceServer()
+                .jwt().jwtAuthenticationConverter(jwtAuthenticationConverter);
+
         return http.build();
     }
+
 
 
 }
