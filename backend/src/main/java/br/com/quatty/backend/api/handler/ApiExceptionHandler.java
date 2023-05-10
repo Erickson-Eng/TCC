@@ -12,6 +12,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.time.ZoneId;
@@ -40,6 +41,17 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
                 .errors(errors)
                 .build();
         return handleExceptionInternal(ex, apiError, headers, badRequest, request);
+    }
+
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    protected ResponseEntity<Object> handleMaxUploadSizeExceededException(MaxUploadSizeExceededException ex) {
+        HttpStatus badRequest = HttpStatus.BAD_REQUEST;
+        ApiError apiError = ApiError.builder()
+                .httpStatus(badRequest)
+                .message(ex.getMessage())
+                .timeStamp(ZonedDateTime.now(ZoneId.of("Z")))
+                .build();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiError);
     }
 
     @ExceptionHandler(value = {IllegalArgumentException.class})

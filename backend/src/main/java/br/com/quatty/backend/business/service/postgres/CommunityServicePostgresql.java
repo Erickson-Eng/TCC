@@ -21,8 +21,10 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor(onConstructor = @__(@Autowired))
@@ -82,6 +84,13 @@ public class CommunityServicePostgresql implements CommunityService {
     public void deleteCommunity(Long id) {
         var entity = verifyIfExist(id);
         communityRepository.delete(entity);
+    }
+
+    @Override
+    public CommunityTableResponse getAllCommunity() {
+        List<Community> communities = communityRepository.findAll();
+        List<CommunityResponse> communityResponses = communities.stream().map(communityMapper::entityToCommunityResponse).toList();
+        return CommunityTableResponse.builder().communityResponseList(communityResponses).build();
     }
 
     private List<Community> verifyIfExist(String name){

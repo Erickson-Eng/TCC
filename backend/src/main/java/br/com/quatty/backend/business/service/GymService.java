@@ -16,6 +16,8 @@ public interface GymService {
 
     GymTableResponse findGymByFilter(GymFilterParams gymFilterParams);
 
+    GymTableResponse getAllGyms();
+
     void deleteGym(Long id);
 
 }

@@ -43,7 +43,12 @@ public class GymController {
         return ResponseEntity.ok().body(gymList);
     }
 
-    @GetMapping("/get-params")
+    @GetMapping("/get-all")
+    public ResponseEntity<GymTableResponse> getAllGyms(){
+        GymTableResponse gymTypeResponse = gymService.getAllGyms();
+        return ResponseEntity.ok(gymTypeResponse);
+    }
+    @GetMapping("/get-params/gym-type")
     public ResponseEntity<GymTypeResponse> getGymType(){
         GymTypeResponse typeResponse = GymTypeResponse.builder()
                 .gymTypeList(GymType.getAllGymType())

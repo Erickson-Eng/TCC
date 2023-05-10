@@ -46,6 +46,8 @@ public class Community implements Serializable {
     @ToString.Exclude
     private Set<Booking> bookingSet;
 
+    @OneToOne(cascade = {CascadeType.REFRESH})
+    private Image communityImage;
     @Column(name = "created_date", nullable = false, updatable = false)
     @CreatedDate
     private LocalDateTime createdDate;

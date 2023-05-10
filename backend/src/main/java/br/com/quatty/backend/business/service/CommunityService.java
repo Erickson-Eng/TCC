@@ -13,4 +13,6 @@ public interface CommunityService {
     CommunityTableResponse findCommunityByName(String name);
 
     void deleteCommunity(Long id);
+
+    CommunityTableResponse getAllCommunity();
 }
