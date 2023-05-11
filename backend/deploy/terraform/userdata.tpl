@@ -33,4 +33,4 @@
     cd deploy/docker
 
 #run your docker compose file
-    docker-compose -f docker-compose-prod.yml up --env-file ./prod.env -d
+    docker-compose -f docker-compose-prod.yml up --env-file prod.env -d
