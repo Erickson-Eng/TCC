@@ -26,6 +26,7 @@ import org.springframework.util.StringUtils;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor(onConstructor = @__(@Autowired))
@@ -82,6 +83,13 @@ public class GymServicePostgres implements GymService {
         List<Gym> gymList = query.getResultList();
 
         var gymResponseList = gymList.stream().map(gymMapper::entityToGymResponse).toList();
+        return GymTableResponse.builder().gymResponseList(gymResponseList).build();
+    }
+
+    @Override
+    public GymTableResponse getAllGyms() {
+        List<Gym> gyms = gymRepository.findAll();
+        List<GymResponse> gymResponseList = gyms.stream().map(gymMapper::entityToGymResponse).toList();
         return GymTableResponse.builder().gymResponseList(gymResponseList).build();
     }
 

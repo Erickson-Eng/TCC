@@ -18,8 +18,10 @@ public interface CommunityMapper {
     @Mapping(target = "modifiedBy", ignore = true)
     @Mapping(target = "membershipSet", ignore = true)
     @Mapping(target = "bookingSet", ignore = true)
+    @Mapping(target = "communityImage.id", source = "imageId")
     Community communityRequestToEntity(CommunityRequest communityRequest);
 
+    @Mapping(target = "imageId", source = "communityImage.id")
     CommunityResponse entityToCommunityResponse(Community community);
 
     @Mapping(target = "id", ignore = true)

@@ -17,4 +17,5 @@ public class CommunityRequest {
     @NotBlank(message = "Community description is required")
     private String description;
     private String communityRules;
+    private Long imageId;
 }

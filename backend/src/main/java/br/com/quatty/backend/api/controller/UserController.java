@@ -2,6 +2,7 @@ package br.com.quatty.backend.api.controller;
 
 
 import br.com.quatty.backend.api.dto.request.UserRequest;
+import br.com.quatty.backend.api.dto.response.MessageResponse;
 import br.com.quatty.backend.api.dto.response.UserResponse;
 import br.com.quatty.backend.business.service.UserService;
 import jakarta.validation.Valid;
@@ -23,14 +24,16 @@ public class UserController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<UserResponse> createSport(@RequestBody @Valid UserRequest userRequest){
+    public ResponseEntity<MessageResponse> createSport(@RequestBody @Valid UserRequest userRequest){
+        MessageResponse message = MessageResponse.builder().content("Recurso criado").build();
         UserResponse userResponse = userService.createUser(userRequest);
         URI uri = URI.create(userResponse.getId().toString());
-        return ResponseEntity.created(uri).body(userResponse);
+        return ResponseEntity.created(uri).body(message);
     }
 
     @GetMapping
-    public ResponseEntity<String> helloWorld(){
-        return ResponseEntity.ok("hello world");
+    public ResponseEntity<MessageResponse> helloWorld(){
+        MessageResponse message = MessageResponse.builder().content("hello World").build();
+        return ResponseEntity.ok(message);
     }
 }

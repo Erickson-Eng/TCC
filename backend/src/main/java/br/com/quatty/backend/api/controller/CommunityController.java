@@ -45,4 +45,10 @@ public class CommunityController {
         communityService.deleteCommunity(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/get-all")
+    public ResponseEntity<CommunityTableResponse> getAllCommunity(){
+        var communities = communityService.getAllCommunity();
+        return ResponseEntity.ok(communities);
+    }
 }
