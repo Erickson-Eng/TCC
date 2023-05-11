@@ -52,7 +52,7 @@ resource "aws_instance" "quattys_ec2" {
   vpc_security_group_ids = [aws_security_group.quattys_sg.id]
   subnet_id              = aws_subnet.quattys_subnet.id
   ami                    = data.aws_ami.quattys_ami.id
-  user_data              = file("userdata.tpl")
+  user_data              = templatefile("userdata.tpl")
 
   root_block_device {
     volume_size = 8
