@@ -1,7 +1,7 @@
 resource "aws_security_group" "quattys_sg" {
-  name = "quattys_sg"
+  name        = "quattys_sg"
   description = "quattys security group"
-  vpc_id = aws_vpc.quattys_vpc.id
+  vpc_id      = aws_vpc.quattys_vpc.id
 }
 
 resource "aws_security_group_rule" "sgr_pub_out" {
@@ -10,7 +10,7 @@ resource "aws_security_group_rule" "sgr_pub_out" {
   security_group_id = aws_security_group.quattys_sg.id
   to_port           = 0
   type              = "egress"
-  cidr_blocks = ["0.0.0.0/0"]
+  cidr_blocks       = ["0.0.0.0/0"]
 }
 
 resource "aws_security_group_rule" "srg_http_in" {
@@ -19,7 +19,7 @@ resource "aws_security_group_rule" "srg_http_in" {
   to_port           = 80
   protocol          = "tcp"
   security_group_id = aws_security_group.quattys_sg.id
-  cidr_blocks = ["0.0.0.0/0"]
+  cidr_blocks       = ["0.0.0.0/0"]
 }
 
 resource "aws_security_group_rule" "srg_ssh_in" {
@@ -28,10 +28,20 @@ resource "aws_security_group_rule" "srg_ssh_in" {
   security_group_id = aws_security_group.quattys_sg.id
   to_port           = 22
   type              = "ingress"
-  cidr_blocks = ["0.0.0.0/0"]
+  cidr_blocks       = ["0.0.0.0/0"]
 }
 
+resource "aws_security_group_rule" "srg_http_keycloak" {
+  type              = "ingress"
+  from_port         = 8080
+  to_port           = 8080
+  protocol          = "tcp"
+  security_group_id = aws_security_group.quattys_sg.id
+  cidr_blocks       = ["0.0.0.0/0"]
+}
+
+
 resource "aws_key_pair" "quattys_key" {
-  key_name = "quattys_key"
+  key_name   = "quattys_key"
   public_key = file("~/.ssh/quattys_key.pub")
 }

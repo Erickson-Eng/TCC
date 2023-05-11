@@ -24,10 +24,10 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db_backend:5432/quattys?currentSchema=public
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=postgres
-      - KEYCLOAK_URL=keycloak
-      - REALM=quattys
-      - RESOURCE_SERVICE=sportive-service
-      - RESOURCE_SERVICE_CLIENT=gNECE4NB8dH93l4WjKaYxfD5GeK0v263
+      - KEYCLOAK_URL=${KEYCLOAK_URL}
+      - REALM=${REALM}
+      - RESOURCE_SERVICE=${RESOURCE_SERVICE}
+      - RESOURCE_SERVICE_CLIENT=${RESOURCE_SERVICE_CLIENT_SECRET}
     networks:
       - quattys_network
     deploy:
