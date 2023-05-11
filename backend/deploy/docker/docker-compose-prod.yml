@@ -1,18 +1,11 @@
 version: '3.7'
 
-volumes:
-  postgres_data:
-    driver: local
-
 networks:
   quattys_network:
 
 services:
   backend:
     image: ericksontulio/quattys:0.0.1
-    build:
-      context: .
-      dockerfile: Dockerfile
     ports:
       - "80:3000"
     depends_on:
@@ -63,7 +56,7 @@ services:
   db_backend:
     image: postgres:14
     container_name: db_backend
-    restart: on-failure
+    restart: always
     ports:
       - "5432:5432"
     environment:
@@ -78,9 +71,7 @@ services:
     container_name: db_keycloak
     ports:
       - "5433:5432"
-    restart: on-failure
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
+    restart: always
     environment:
       - POSTGRES_USER=keycloak
       - POSTGRES_PASSWORD=password
