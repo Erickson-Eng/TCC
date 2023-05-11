@@ -14,5 +14,6 @@ public class CommunityResponse {
     private Long id;
     private String name;
     private String description;
-    private String community_rules;
+    private String communityRules;
+    private Long imageId;
 }

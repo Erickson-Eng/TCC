@@ -3,12 +3,15 @@ package br.com.quatty.backend.business.service.postgres;
 import br.com.quatty.backend.api.dto.filter.GymFilterParams;
 import br.com.quatty.backend.api.dto.mapper.GymMapper;
 import br.com.quatty.backend.api.dto.request.GymRequest;
+import br.com.quatty.backend.api.dto.request.PracticableRequest;
 import br.com.quatty.backend.api.dto.response.GymResponse;
 import br.com.quatty.backend.api.dto.table.GymTableResponse;
 
 import br.com.quatty.backend.business.entity.Gym;
 import br.com.quatty.backend.business.entity.Locale;
+import br.com.quatty.backend.business.entity.enums.PracticableState;
 import br.com.quatty.backend.business.service.GymService;
+import br.com.quatty.backend.business.service.PracticableService;
 import br.com.quatty.backend.business.service.exception.EntityNotFoundException;
 import br.com.quatty.backend.infra.repository.GymRepository;
 import jakarta.persistence.EntityManager;
@@ -23,12 +26,14 @@ import org.springframework.util.StringUtils;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class GymServicePostgres implements GymService {
 
 
+    private PracticableService practicableService;
     private GymRepository gymRepository;
     private GymMapper gymMapper;
     @PersistenceContext
@@ -38,6 +43,22 @@ public class GymServicePostgres implements GymService {
     public GymResponse createGym(GymRequest gymRequest) {
         var entity = gymMapper.gymRequestToEntity(gymRequest);
         entity = gymRepository.save(entity);
+
+        List<Long> sportPracticable = gymRequest.getSportPracticable();
+        if (sportPracticable != null && !sportPracticable.isEmpty()){
+            Gym finalEntity = entity;
+            gymRequest.getSportPracticable().forEach(
+                    practicable -> {
+                        PracticableRequest practicableRequest = PracticableRequest.builder()
+                                .practicableState(PracticableState.PRACTICABLE.getCode())
+                                .gymId(finalEntity.getId())
+                                .sportId(practicable)
+                                .build();
+
+                        practicableService.createPracticable(practicableRequest);
+                    }
+            );
+        }
         return gymMapper.entityToGymResponse(entity);
     }
 
@@ -54,8 +75,6 @@ public class GymServicePostgres implements GymService {
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Gym> criteriaQuery = builder.createQuery(Gym.class);
         Root<Gym> root = criteriaQuery.from(Gym.class);
-        Join<Gym, Locale> localeJoin = root.join("locale");
-        criteriaQuery.where(builder.like(localeJoin.get("city"), "%" + gymFilterParams.getCity() + "%"));
 
         List<Predicate> predicates = createPredicate(gymFilterParams, builder, root);
         criteriaQuery.where(predicates.toArray(new Predicate[0]));
@@ -67,12 +86,23 @@ public class GymServicePostgres implements GymService {
         return GymTableResponse.builder().gymResponseList(gymResponseList).build();
     }
 
+    @Override
+    public GymTableResponse getAllGyms() {
+        List<Gym> gyms = gymRepository.findAll();
+        List<GymResponse> gymResponseList = gyms.stream().map(gymMapper::entityToGymResponse).toList();
+        return GymTableResponse.builder().gymResponseList(gymResponseList).build();
+    }
+
     private List<Predicate> createPredicate(GymFilterParams gymFilterParams,
                                             CriteriaBuilder builder,
                                             Root<Gym> root) {
         List<Predicate> predicates = new ArrayList<>();
         if(StringUtils.hasText(gymFilterParams.getName())){
-            predicates.add(builder.like(root.get("name"), "%"+ gymFilterParams.getName() +"%"));
+            predicates.add(builder.like(builder.lower(root.get("name")), "%"+ gymFilterParams.getName().toLowerCase() +"%"));
+        }
+        if (StringUtils.hasText(gymFilterParams.getCity())){
+            Join<Gym, Locale> localeJoin = root.join("locale");
+            predicates.add(builder.like(builder.lower(localeJoin.get("city")), "%" + gymFilterParams.getCity().toLowerCase() +"%"));
         }
         return predicates;
     }

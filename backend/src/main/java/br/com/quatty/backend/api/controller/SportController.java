@@ -8,7 +8,6 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -20,7 +19,6 @@ public class SportController {
 
     private SportService sportService;
 
-    @Secured({"ROLE_ADMIN"})
     @PostMapping
     public ResponseEntity<SportResponse> createSport(@RequestBody @Valid SportRequest sportRequest){
         var sport = sportService.createSport(sportRequest);
@@ -29,12 +27,17 @@ public class SportController {
     }
 
 
-    @Secured({"ROLE_ADMIN"})
     @PutMapping("/{id}")
     public ResponseEntity<SportResponse> updateSportInfo(@PathVariable Long id,
                                                          @RequestBody SportRequest sportRequest){
         var sport = sportService.updateSport(id, sportRequest);
         return ResponseEntity.ok().body(sport);
+    }
+
+    @GetMapping
+    public ResponseEntity<SportTableResponse> getAllSports(){
+        var sportTable = sportService.getAllSports();
+        return ResponseEntity.ok().body(sportTable);
     }
 
     @GetMapping("/get-by-id/{id}")

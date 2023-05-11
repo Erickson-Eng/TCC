@@ -1,0 +1,89 @@
+version: '3.7'
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  quattys_network:
+
+services:
+  backend:
+    image: ericksontulio/quattys:0.0.1
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "80:3000"
+    depends_on:
+      - keycloak
+      - db_backend
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - SERVER_PORT=3000
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db_backend:5432/quattys?currentSchema=public
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - KEYCLOAK_URL=keycloak
+      - REALM=quattys
+      - RESOURCE_SERVICE=sportive-service
+      - RESOURCE_SERVICE_CLIENT=gNECE4NB8dH93l4WjKaYxfD5GeK0v263
+    networks:
+      - quattys_network
+    deploy:
+      resources:
+        limits:
+          memory: 700M
+        reservations:
+          memory: 700M
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:21.1.1
+    environment:
+      DB_VENDOR: POSTGRES
+      DB_ADDR: postgres
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: password
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    networks:
+      - quattys_network
+    deploy:
+      resources:
+        limits:
+          memory: 700M
+        reservations:
+          memory: 700M
+
+  db_backend:
+    image: postgres:14
+    container_name: db_backend
+    restart: on-failure
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=quattys
+    networks:
+      - quattys_network
+
+  postgres:
+    image: postgres:14
+    container_name: db_keycloak
+    ports:
+      - "5433:5432"
+    restart: on-failure
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=keycloak
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=keycloak
+    networks:
+      - quattys_network

@@ -28,8 +28,7 @@ public class KeycloakAuditorAware implements AuditorAware<String> {
                 String username = keycloakSecurityContext.getIdToken().getPreferredUsername();
                 String email = keycloakSecurityContext.getIdToken().getEmail();
                 auditor = StringUtils.hasText(email) ? username : email;
-            } else if (principal instanceof Jwt) {
-                Jwt jwt = (Jwt) principal;
+            } else if (principal instanceof Jwt jwt) {
                 String username = jwt.getClaim("preferred_username");
                 String email = jwt.getClaim("email");
                 auditor = StringUtils.hasText(username) ? username : email;

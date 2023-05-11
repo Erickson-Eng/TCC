@@ -20,4 +20,5 @@ public class BookingRequest {
     private Long gymId;
     @NotNull(message = "the id of the community that requested the lease is mandatory")
     private Long communityId;
+    private String applicationState;
 }

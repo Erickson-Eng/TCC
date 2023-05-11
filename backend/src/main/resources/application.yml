@@ -1,23 +1,10 @@
 server:
   port: 8888
 spring:
+  profiles:
+    active: prod
   security:
     oauth2:
       resourceserver:
         jwt:
           jwk-set-uri: http://${KEYCLOAK_URL}:8080/realms/quattys/protocol/openid-connect/certs
-  datasource:
-    url: ${SPRING_DATASOURCE_URL}
-    username: ${SPRING_DATASOURCE_USERNAME}
-    password: ${SPRING_DATASOURCE_PASSWORD}
-    driver-class-name: org.postgresql.Driver
-  jpa:
-    hibernate:
-      ddl-auto: create-drop
-    database: postgresql
-    open-in-view: true
-    generate-ddl: true
-  flyway:
-    encoding: UTF-8
-    validate-on-migrate: true
-    enabled: false
