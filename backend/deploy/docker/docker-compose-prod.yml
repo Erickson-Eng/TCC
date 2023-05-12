@@ -33,7 +33,7 @@ services:
   keycloak:
     image: quay.io/keycloak/keycloak:21.1.1
     command:
-      - start
+      - start-dev
     environment:
       DB_VENDOR: POSTGRES
       DB_ADDR: postgres
