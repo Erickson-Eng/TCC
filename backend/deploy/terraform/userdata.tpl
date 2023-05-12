@@ -27,7 +27,7 @@ cd ~/project
 # Clone your project from Git repository
 git clone https://github.com/Erickson-Eng/TCC.git
 cd TCC/backend
-git checkout main
+git checkout noauth
 git pull
 cd deploy/docker
 
