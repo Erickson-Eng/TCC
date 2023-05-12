@@ -51,9 +51,9 @@ services:
     deploy:
       resources:
         limits:
-          memory: 700M
+          memory: 200M
         reservations:
-          memory: 700M
+          memory: 200M
 
   db_backend:
     image: postgres:14
