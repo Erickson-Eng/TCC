@@ -27,13 +27,13 @@ spring:
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
     database: postgresql
-    open-in-view: true
-    generate-ddl: true
+    open-in-view: false
+    generate-ddl: false
   flyway:
     encoding: UTF-8
-    baseline-on-migrate: false
+    baseline-on-migrate: true
     locations: "db/migration"
 
 

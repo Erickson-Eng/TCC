@@ -7,13 +7,13 @@ services:
   backend:
     image: ericksontulio/quattys:0.0.1
     ports:
-      - "80:3000"
+      - "80:8888"
     depends_on:
       - keycloak
       - db_backend
     environment:
       - SPRING_PROFILES_ACTIVE=prod
-      - SERVER_PORT=3000
+      - SERVER_PORT=8888
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db_backend:5432/quattys?currentSchema=public
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=postgres
@@ -33,7 +33,7 @@ services:
   keycloak:
     image: quay.io/keycloak/keycloak:21.1.1
     command:
-      - start
+      - start-dev
     environment:
       DB_VENDOR: POSTGRES
       DB_ADDR: postgres

@@ -19,6 +19,8 @@ services:
       - keycloak
       - db_backend
     environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - SERVER_PORT=8888
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db_backend:5432/quattys?currentSchema=public
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=postgres
