@@ -1,36 +1,35 @@
 #!/bin/bash
-#install docker
-    sudo apt-get update -y &&
-    sudo apt-get install -y \
-        apt-transport-https \
-        ca-certificates \
-        curl \
-        gnupg-agent \
-        software-properties-common &&
-        curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add - &&
-    sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" &&
-    sudo apt-get update -y &&
-    sudo sudo apt-get install docker-ce docker-ce-cli containerd.io -y &&
-    sudo usermod -aG docker ubuntu
-    sudo systemctl enable docker.service
-    sudo systemctl enable containerd.service
 
-#install docker compose
-    sudo apt install docker-compose -y
+# Install Docker
+sudo apt-get update -y
+sudo apt-get install -y \
+apt-transport-https \
+ca-certificates \
+curl \
+gnupg-agent \
+software-properties-common
 
-#access user root
-    sudo su
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+sudo apt-get update -y
+sudo apt-get install docker-ce docker-ce-cli containerd.io -y
+sudo usermod -aG docker ubuntu
+sudo systemctl enable docker.service
+sudo systemctl enable containerd.service
 
-#create project folder
-    mkdir ~/project
-    cd ~/project
+# Install Docker Compose
+sudo apt install docker-compose -y
 
-#clone your project from git repository
-    git clone https://github.com/Erickson-Eng/TCC.git
-    cd TCC/backend
-    git checkout main
-    git pull
-    cd deploy/docker
+# Create project folder
+mkdir ~/project
+cd ~/project
 
-#run your docker compose file
-    docker-compose -f docker-compose-prod.yml up --env-file prod.env -d
+# Clone your project from Git repository
+git clone https://github.com/Erickson-Eng/TCC.git
+cd TCC/backend
+git checkout main
+git pull
+cd deploy/docker
+
+# Run your Docker Compose file
+docker-compose -f docker-compose-prod.yml --env-file prod.env up -d
