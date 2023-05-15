@@ -1,8 +1,11 @@
 package br.com.quatty.backend.business.service.keycloak;
 
+import br.com.quatty.backend.api.dto.response.AccessTokenResponseDTO;
 import br.com.quatty.backend.business.service.KeycloakService;
 import br.com.quatty.backend.infra.config.ThreadLocalHolder;
 import br.com.quatty.backend.infra.config.keycloak.KeycloakProperties;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.keycloak.KeycloakPrincipal;
 import org.keycloak.KeycloakSecurityContext;
 import org.keycloak.admin.client.Keycloak;
@@ -11,10 +14,14 @@ import org.keycloak.admin.client.resource.UserResource;
 import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.RoleRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
+import org.springframework.http.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
+import org.springframework.web.client.RestTemplate;
 
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.core.Response;
@@ -69,6 +76,45 @@ public class KeycloakServicePostgres implements KeycloakService {
         userResource.roles().realmLevel().add(roles);
     }
 
+    public AccessTokenResponseDTO login(String username, String password){
+        String url = "http://keycloak:8080/realms/quattys/protocol/openid-connect/token";
+        String clientId = "sportive";
+        String grantType = "password";
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        params.add("client_id", clientId);
+        params.add("username", username);
+        params.add("password", password);
+        params.add("grant_type", grantType);
+
+        // Criar a entidade HttpEntity com os cabeçalhos e parâmetros
+        HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(params, headers);
+
+        // Enviar a requisição e receber a resposta
+        ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
+
+        // Verificar se a requisição foi bem-sucedida e obter a resposta
+        if (responseEntity.getStatusCode() == HttpStatus.OK) {
+            String response = responseEntity.getBody();
+            ObjectMapper objectMapper = new ObjectMapper();
+            AccessTokenResponseDTO accessTokenResponseDTO = new AccessTokenResponseDTO();
+            try {
+                accessTokenResponseDTO = objectMapper.readValue(response, AccessTokenResponseDTO.class);
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+
+            return accessTokenResponseDTO;
+        } else {
+            System.out.println("Falha na chamada. Código de status: " + responseEntity.getStatusCodeValue());
+            return AccessTokenResponseDTO.builder().build();
+        }
+    }
     private UserRepresentation createUserRepresentation(String username, String email, String password,
                                                         String firstName, String lastName, String realmRole) {
         UserRepresentation user = new UserRepresentation();

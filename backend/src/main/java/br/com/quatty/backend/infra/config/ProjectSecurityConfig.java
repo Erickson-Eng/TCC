@@ -70,7 +70,7 @@ public class ProjectSecurityConfig {
                 })
                 .and()
                 .csrf(csrf -> csrf.csrfTokenRequestHandler(requestHandler)
-                        .ignoringRequestMatchers("/contact","/api/v1/user")
+                        .ignoringRequestMatchers("/api/v1/user/**","/api/v1/user")
                         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
                 .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
                 .authorizeHttpRequests()
@@ -87,7 +87,7 @@ public class ProjectSecurityConfig {
                 .requestMatchers(HttpMethod.PUT, "/api/v1/locale/**").hasAnyRole(ROLE_ATHLETE, ROLE_ADMIN, ROLE_MANAGER)
                 .requestMatchers(HttpMethod.PUT, "/api/v1/sport/**").hasRole(ROLE_ADMIN)
                 .requestMatchers(HttpMethod.GET, PUBLIC_MATCHERS).permitAll()
-                .requestMatchers(HttpMethod.POST,"/api/v1/user", "/api/v1/membership/**").permitAll()
+                .requestMatchers(HttpMethod.POST,"/api/v1/user", "/api/v1/membership/**", "/api/v1/user/**").permitAll()
                 .and()
                 .oauth2ResourceServer()
                 .jwt().jwtAuthenticationConverter(jwtAuthenticationConverter);
