@@ -6,4 +6,8 @@ import br.com.quatty.backend.api.dto.response.ManagerResponse;
 public interface ManagerService {
 
     ManagerResponse createManager(ProfileRequest profileRequest);
+
+    ManagerResponse getManagerByEmail(String email);
+
+
 }

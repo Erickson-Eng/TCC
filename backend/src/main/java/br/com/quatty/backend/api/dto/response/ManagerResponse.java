@@ -19,7 +19,6 @@ public class ManagerResponse {
     private String lastName;
     private String socialName;
     private String birthDate;
-    private String cpf;
     @JsonProperty("locale")
     private LocaleResponse localeResponse;
 

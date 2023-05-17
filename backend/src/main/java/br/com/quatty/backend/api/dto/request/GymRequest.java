@@ -25,4 +25,6 @@ public class GymRequest {
     private String shortDescription;
 
     private List<Long> sportPracticable;
+
+    private Long managerId;
 }

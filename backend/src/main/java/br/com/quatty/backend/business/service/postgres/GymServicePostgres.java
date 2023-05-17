@@ -12,6 +12,7 @@ import br.com.quatty.backend.business.entity.Locale;
 import br.com.quatty.backend.business.entity.enums.PracticableState;
 import br.com.quatty.backend.business.service.GymService;
 import br.com.quatty.backend.business.service.PracticableService;
+import br.com.quatty.backend.business.service.SportService;
 import br.com.quatty.backend.business.service.exception.EntityNotFoundException;
 import br.com.quatty.backend.infra.repository.GymRepository;
 import jakarta.persistence.EntityManager;
@@ -34,6 +35,7 @@ public class GymServicePostgres implements GymService {
 
 
     private PracticableService practicableService;
+    private SportService sportService;
     private GymRepository gymRepository;
     private GymMapper gymMapper;
     @PersistenceContext
@@ -90,6 +92,7 @@ public class GymServicePostgres implements GymService {
     public GymTableResponse getAllGyms() {
         List<Gym> gyms = gymRepository.findAll();
         List<GymResponse> gymResponseList = gyms.stream().map(gymMapper::entityToGymResponse).toList();
+        gymResponseList.forEach(gymResponse -> gymResponse.setSports(sportService.getSportForGym(gymResponse.getId())));
         return GymTableResponse.builder().gymResponseList(gymResponseList).build();
     }
 

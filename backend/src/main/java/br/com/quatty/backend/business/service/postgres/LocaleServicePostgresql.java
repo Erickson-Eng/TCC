@@ -70,6 +70,11 @@ public class LocaleServicePostgresql implements LocaleService {
         return LocaleTableResponse.builder().localeResponseList(localeResponseList).build();
     }
 
+    @Override
+    public LocaleResponse getLocaleForGym(Long gymId) {
+        return localeRepository.getLocaleByGymId(gymId).map(value -> localeMapper.entityToLocaleResponse(value)).orElse(null);
+    }
+
     private List<Predicate> createPredicate(String street, String city, String state,
                                             CriteriaBuilder builder, Root<Locale> root) {
         List<Predicate> predicates = new ArrayList<>();

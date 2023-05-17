@@ -57,6 +57,14 @@ public class SportServicePostgresql implements SportService {
         return SportTableResponse.builder().sportResponseList(responses).build();
     }
 
+    @Override
+    public List<SportResponse> getSportForGym(Long id) {
+        return sportRepository.getAllSportForGymId(id)
+                .stream()
+                .map(sportMapper::entityToSportResponse)
+                .toList();
+    }
+
 
     private Sport verifyIfExist(Long id) {
         return sportRepository.findById(id)

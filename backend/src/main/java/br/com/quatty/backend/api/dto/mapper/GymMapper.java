@@ -16,9 +16,11 @@ public interface GymMapper {
     @Mapping(target = "createdBy", ignore = true)
     @Mapping(target = "modifiedBy", ignore = true)
     @Mapping(target = "locale.id", source = "localeId")
+    @Mapping(target = "manager.id", source = "managerId")
     Gym gymRequestToEntity(GymRequest gymRequest);
 
     @Mapping(target = "localeResponse", source = "locale")
+    @Mapping(target = "managerId", source = "manager.id")
     GymResponse entityToGymResponse(Gym gym);
 
     @Mapping(target = "id", ignore = true)
