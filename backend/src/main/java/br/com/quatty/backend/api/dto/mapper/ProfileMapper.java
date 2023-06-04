@@ -9,7 +9,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {GymMapper.class})
 public interface ProfileMapper {
 
     @Mapping(target = "id", ignore = true)
@@ -25,6 +25,7 @@ public interface ProfileMapper {
     @Mapping(target = "localeResponse", source = "locale")
     @Mapping(target = "birthDate", dateFormat = "dd/MM/yyyy HH:mm:ss")
     @Mapping(target = "bodyMeasureList", source = "bodyMeasures")
+    @Mapping(target = "username", source = "user.username")
     AthleteResponse entityToAthleteResponse(Athlete athlete);
 
     @Mapping(target = "id", ignore = true)

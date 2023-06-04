@@ -12,4 +12,6 @@ public interface MembershipService {
     MembershipResponse updateMembershipInfo(MembershipRequest membershipRequest);
 
     MembershipTableResponse findMembershipByFilter(MembershipFilterParams membershipFilterParams);
+
+    MembershipTableResponse findAllMembersForCommunity(Long communityId);
 }

@@ -16,6 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,14 +26,26 @@ import java.util.List;
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class BookingServicePostgresql implements BookingService {
 
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+
     private BookingRepository bookingRepository;
     private BookingMapper bookingMapper;
 
     @Override
     public BookingResponse createBooking(BookingRequest bookingRequest) {
+        validateBooking(bookingRequest);
         var entity = bookingMapper.bookingRequestToEntity(bookingRequest);
         entity = bookingRepository.save(entity);
         return bookingMapper.entityToBookingResponse(entity);
+    }
+
+    private void validateBooking(BookingRequest bookingRequest) {
+        LocalDateTime checkinDateTime = parseDateTime(bookingRequest.getCheckinBooking(), bookingRequest.getCheckinBooking());
+        LocalDateTime checkoutDateTime = parseDateTime(bookingRequest.getCheckoutBooking(), bookingRequest.getCheckoutBooking());
+
+        validateDateTime(checkinDateTime, "check-in");
+        validateDateTime(checkoutDateTime, "check-out");
+        validateTimeInterval(checkinDateTime, checkoutDateTime);
     }
 
     @Override
@@ -68,5 +83,27 @@ public class BookingServicePostgresql implements BookingService {
         return bookingRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(
                         MessageFormat.format("Error locating {} in database from id {}", Booking.class.getName(), id)));
+    }
+
+
+    private LocalDateTime parseDateTime(String date, String time) {
+        String dateTimeString = date + " " + time;
+        return LocalDateTime.parse(dateTimeString, DATE_TIME_FORMATTER);
+    }
+
+    private void validateDateTime(LocalDateTime dateTime, String fieldName) {
+        LocalDateTime currentDateTime = LocalDateTime.now();
+
+        if (dateTime.isBefore(currentDateTime)) {
+            throw new IllegalArgumentException("A data e hora de " + fieldName + " não podem ser anteriores ao momento atual.");
+        }
+    }
+
+    private void validateTimeInterval(LocalDateTime checkinDateTime, LocalDateTime checkoutDateTime) {
+        long intervalHours = checkinDateTime.until(checkoutDateTime, ChronoUnit.HOURS);
+
+        if (intervalHours < 6) {
+            throw new IllegalArgumentException("O intervalo mínimo para realizar uma reserva é de 6 horas.");
+        }
     }
 }

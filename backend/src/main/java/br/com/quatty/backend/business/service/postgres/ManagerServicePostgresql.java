@@ -4,6 +4,7 @@ import br.com.quatty.backend.api.dto.mapper.ProfileMapper;
 import br.com.quatty.backend.api.dto.request.ProfileRequest;
 import br.com.quatty.backend.api.dto.response.ManagerResponse;
 import br.com.quatty.backend.business.entity.Manager;
+import br.com.quatty.backend.business.service.ImageService;
 import br.com.quatty.backend.business.service.LocaleService;
 import br.com.quatty.backend.business.service.ManagerService;
 import br.com.quatty.backend.business.service.SportService;
@@ -23,6 +24,7 @@ public class ManagerServicePostgresql implements ManagerService {
     private ManagerRepository managerRepository;
     private SportService sportService;
     private LocaleService localeService;
+    private ImageService imageService;
     private ProfileMapper profileMapper;
     @Override
     public ManagerResponse createManager(ProfileRequest profileRequest) {
@@ -37,7 +39,6 @@ public class ManagerServicePostgresql implements ManagerService {
         ManagerResponse managerResponse = manager.map(value -> profileMapper.createResponseFromEntity(value)).orElse(null);
         if (managerResponse != null){
             managerResponse.getGymResponseList().forEach(gymResponse -> {
-                gymResponse.setLocaleResponse(localeService.getLocaleById(gymResponse.getId()));
                 gymResponse.setSports(sportService.getSportForGym(gymResponse.getId()));
             });
         }

@@ -22,4 +22,5 @@ public class GymResponse {
     private LocaleResponse localeResponse;
     private String shortDescription;
     private List<SportResponse> sports;
+    private Long imageId;
 }

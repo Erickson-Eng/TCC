@@ -30,6 +30,7 @@ public interface MembershipMapper {
     @Mapping(target = "communityProfile", source = "communityProfile")
     @Mapping(target = "createdDate", dateFormat = "dd/MM/yyyy HH:mm:ss")
     @Mapping(target = "modifiedDate", dateFormat = "dd/MM/yyyy HH:mm:ss")
+    @Mapping(target = "username", source = "athlete.user.username")
     MembershipResponse entityToMembershipResponse(Membership membership);
 
     @Mapping(target = "athlete", ignore = true)

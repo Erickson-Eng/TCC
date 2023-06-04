@@ -20,4 +20,6 @@ public interface GymService {
 
     void deleteGym(Long id);
 
+    GymResponse getGymById(Long id);
+
 }

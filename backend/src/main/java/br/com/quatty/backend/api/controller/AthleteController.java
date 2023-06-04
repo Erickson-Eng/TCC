@@ -41,6 +41,18 @@ public class AthleteController {
         return ResponseEntity.ok().body(athleteTable);
     }
 
+    @GetMapping("/get-by-id/{id}")
+    public ResponseEntity<AthleteResponse> getAthletesByParams(@PathVariable Long id){
+        var athlete = athleteService.getAthleteById(id);
+        return ResponseEntity.ok().body(athlete);
+    }
+
+    @GetMapping("/get-by-username/{username}")
+    public ResponseEntity<AthleteResponse> getAthletesByParams(@PathVariable String username){
+        var athlete = athleteService.getAthleteByUsername(username);
+        return ResponseEntity.ok().body(athlete);
+    }
+
     @Secured({"ROLE_ADMIN"})
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAthleteInfo(@PathVariable Long id){

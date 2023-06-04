@@ -19,6 +19,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.*;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,7 @@ import org.springframework.util.StringUtils;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -41,6 +43,7 @@ public class GymServicePostgres implements GymService {
     @PersistenceContext
     private EntityManager entityManager;
 
+    @Transactional
     @Override
     public GymResponse createGym(GymRequest gymRequest) {
         var entity = gymMapper.gymRequestToEntity(gymRequest);
@@ -88,12 +91,27 @@ public class GymServicePostgres implements GymService {
         return GymTableResponse.builder().gymResponseList(gymResponseList).build();
     }
 
+    @Transactional
     @Override
     public GymTableResponse getAllGyms() {
         List<Gym> gyms = gymRepository.findAll();
         List<GymResponse> gymResponseList = gyms.stream().map(gymMapper::entityToGymResponse).toList();
         gymResponseList.forEach(gymResponse -> gymResponse.setSports(sportService.getSportForGym(gymResponse.getId())));
         return GymTableResponse.builder().gymResponseList(gymResponseList).build();
+    }
+
+
+
+    @Override
+    public GymResponse getGymById(Long id) {
+        Optional<Gym> gym = gymRepository.findById(id);
+        if (gym.isPresent()){
+            GymResponse gymResponse = gymMapper.entityToGymResponse(gym.get());
+            gymResponse.setSports(sportService.getSportForGym(id));
+            return gymResponse;
+        }
+
+        return null;
     }
 
     private List<Predicate> createPredicate(GymFilterParams gymFilterParams,

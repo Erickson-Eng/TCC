@@ -27,4 +27,6 @@ public class GymRequest {
     private List<Long> sportPracticable;
 
     private Long managerId;
+
+    private Long imageId;
 }

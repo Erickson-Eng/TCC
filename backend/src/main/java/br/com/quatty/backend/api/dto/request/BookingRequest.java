@@ -21,4 +21,7 @@ public class BookingRequest {
     @NotNull(message = "the id of the community that requested the lease is mandatory")
     private Long communityId;
     private String applicationState;
+    @NotNull(message = "text is mandatory")
+    private String text;
+    private String day;
 }

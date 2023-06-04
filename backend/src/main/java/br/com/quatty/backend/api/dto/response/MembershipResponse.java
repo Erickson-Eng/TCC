@@ -19,4 +19,5 @@ public class MembershipResponse {
     private String createdDate;
     private String modifiedDate;
     private String communityProfile;
+    private String username;
 }

@@ -51,4 +51,10 @@ public class CommunityController {
         var communities = communityService.getAllCommunity();
         return ResponseEntity.ok(communities);
     }
+
+    @GetMapping("/get-by-id/{id}")
+    public ResponseEntity<CommunityResponse> getCommunityById(@PathVariable Long id){
+        var community = communityService.getCommunityById(id);
+        return ResponseEntity.ok(community);
+    }
 }

@@ -29,13 +29,17 @@ public class ProjectSecurityConfig {
     protected static final String ROLE_ADMIN = "ADMIN";
     protected static final String ROLE_MANAGER = "MANAGER";
     protected static final String COMMUNITY_MANAGER = "COMMUNITY_MANAGER";
+    protected static final String COMMON_ACCESS = "default-roles-quattys";
     private static final String[] PUBLIC_MATCHERS = {
             "/api/v1/sport/**",
             "/api/v1/locale/**",
             "/api/v1/gym/**",
             "/api/v1/membership/**",
             "/api/v1/user",
-            "/api/v1/image"
+            "/api/v1/image",
+            "/api/v1/athlete/**",
+            "/api/v1/gym/**",
+            "/api/v1/community/**"
 
     };
 
@@ -74,8 +78,9 @@ public class ProjectSecurityConfig {
                         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
                 .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
                 .authorizeHttpRequests()
+                .requestMatchers(HttpMethod.GET,PUBLIC_MATCHERS).hasAnyRole(COMMON_ACCESS, ROLE_ATHLETE, ROLE_ADMIN)
                 .requestMatchers("/api/v1/athlete/**").hasAnyRole(ROLE_ATHLETE, ROLE_ADMIN)
-                .requestMatchers("/api/v1/booking/**").hasAnyRole( ROLE_ADMIN, ROLE_MANAGER, COMMUNITY_MANAGER)
+                .requestMatchers("/api/v1/booking").hasAnyRole( ROLE_ADMIN, ROLE_MANAGER, COMMUNITY_MANAGER)
                 .requestMatchers("/api/v1/community/**").hasAnyRole(ROLE_ATHLETE, ROLE_ADMIN, ROLE_MANAGER)
                 .requestMatchers("/api/v1/gym/**").hasAnyRole(ROLE_MANAGER, ROLE_ADMIN)
                 .requestMatchers("/api/v1/practicable/**").hasAnyRole(ROLE_MANAGER, ROLE_ADMIN)
@@ -87,8 +92,7 @@ public class ProjectSecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/api/v1/image/**").hasAnyRole(ROLE_ATHLETE, ROLE_ADMIN, ROLE_MANAGER)
                 .requestMatchers(HttpMethod.PUT, "/api/v1/locale/**").hasAnyRole(ROLE_ATHLETE, ROLE_ADMIN, ROLE_MANAGER)
                 .requestMatchers(HttpMethod.PUT, "/api/v1/sport/**").hasRole(ROLE_ADMIN)
-                .requestMatchers(HttpMethod.GET, PUBLIC_MATCHERS).permitAll()
-                .requestMatchers(HttpMethod.POST,"/api/v1/user", "/api/v1/membership/**", "/api/v1/user/**").permitAll()
+                .requestMatchers(HttpMethod.POST,"/api/v1/user", "/api/v1/user/**").permitAll()
                 .and()
                 .oauth2ResourceServer()
                 .jwt().jwtAuthenticationConverter(jwtAuthenticationConverter);
