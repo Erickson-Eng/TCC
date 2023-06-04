@@ -19,6 +19,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.*;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -61,6 +62,7 @@ public class MembershipServicePostgresql implements MembershipService {
         return membershipMapper.entityToMembershipResponse(membership);
     }
 
+    @Transactional
     @Override
     public MembershipTableResponse findMembershipByFilter(MembershipFilterParams membershipFilterParams) {
         MembershipTableResponse membershipTableResponse = new MembershipTableResponse();
@@ -105,6 +107,13 @@ public class MembershipServicePostgresql implements MembershipService {
         return membershipTableResponse;
     }
 
+    @Transactional
+    @Override
+    public MembershipTableResponse findAllMembersForCommunity(Long communityId) {
+        List<MembershipResponse> members = membershipRepository.findAllByMembershipPKAndCommunityId(communityId).stream()
+                .map(membershipMapper::entityToMembershipResponse).toList();
+        return MembershipTableResponse.builder().membershipResponseList(members).build();
+    }
 
     private Membership verifyIfExist(Long athleteId, Long communityId){
         var membershipPK = MembershipPK.builder().athleteId(athleteId).communityId(communityId).build();

@@ -15,6 +15,8 @@ public class BookingResponse {
     private String checkinBooking;
     private String checkoutBooking;
 
+    private String text;
+
     private Long gymId;
     private String gymName;
 

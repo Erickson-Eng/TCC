@@ -15,4 +15,5 @@ public interface CommunityService {
     void deleteCommunity(Long id);
 
     CommunityTableResponse getAllCommunity();
+    CommunityResponse getCommunityById(Long id);
 }

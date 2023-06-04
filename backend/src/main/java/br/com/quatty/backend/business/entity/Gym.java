@@ -52,6 +52,11 @@ public class Gym implements Serializable {
     @ToString.Exclude
     private Set<Booking> bookingSet;
 
+    @ToString.Exclude
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH, orphanRemoval = true)
+    @JoinColumn
+    private Image image;
+
     @Column(name = "created_date", nullable = false, updatable = false)
     @CreatedDate
     private LocalDateTime createdDate;

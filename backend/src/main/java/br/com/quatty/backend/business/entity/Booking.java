@@ -13,7 +13,6 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.List;
 
 
@@ -34,11 +33,13 @@ public class Booking implements Serializable {
     private Long id;
 
     @Column(nullable = false)
+    private String text;
+    @Column(nullable = false)
     private DayOfWeek day;
     @Column(nullable = false)
-    private LocalTime checkinBooking;
+    private LocalDateTime checkinBooking;
     @Column(nullable = false)
-    private LocalTime checkoutBooking;
+    private LocalDateTime checkoutBooking;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

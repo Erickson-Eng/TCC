@@ -15,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 
 @RestController
 @RequestMapping("/api/v1/membership")
@@ -72,6 +71,13 @@ public class MembershipController {
 
         MembershipTableResponse membershipTableResponse = membershipService.findMembershipByFilter(membershipFilterParams);
         return ResponseEntity.ok(membershipTableResponse);
+    }
+
+    @GetMapping("/get-members-for-community")
+    public ResponseEntity<MembershipTableResponse> findAllMembersForCommunity(
+            @RequestParam(name = "communityId", required = true) Long communityId) {
+        var members = membershipService.findAllMembersForCommunity(communityId);
+        return ResponseEntity.ok(members);
     }
 
     @GetMapping("/get-params")

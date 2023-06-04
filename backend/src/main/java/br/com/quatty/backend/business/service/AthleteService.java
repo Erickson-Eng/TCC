@@ -19,4 +19,8 @@ public interface AthleteService {
 
     Athlete findAthleteByUsername(String username);
 
+    AthleteResponse getAthleteByUsername(String username);
+
+    AthleteResponse getAthleteById(Long id);
+
 }

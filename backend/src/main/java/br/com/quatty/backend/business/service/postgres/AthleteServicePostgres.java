@@ -99,6 +99,18 @@ public class AthleteServicePostgres implements AthleteService {
         return verifyIfExist(username);
     }
 
+    @Override
+    public AthleteResponse getAthleteByUsername(String username) {
+        var athlete = verifyIfExist(username);
+        return athleteMapper.entityToAthleteResponse(athlete);
+    }
+
+    @Override
+    public AthleteResponse getAthleteById(Long id) {
+        var athlete = verifyIfExist(id);
+        return athleteMapper.entityToAthleteResponse(athlete);
+    }
+
     private Athlete verifyIfExist(Long id){
         return athleteRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(MessageFormat.format("Error locating {} in database from id {}", Athlete.class.getName(), id)));

@@ -333,254 +333,130 @@ ALTER TABLE ONLY public.locale ALTER COLUMN id SET DEFAULT nextval('public.local
 ALTER TABLE ONLY public.sport ALTER COLUMN id SET DEFAULT nextval('public.sport_id_seq'::regclass);
 
 SELECT pg_catalog.setval('public.application_user_id_seq', 2, true);
-
-
-
 SELECT pg_catalog.setval('public.body_measure_id_seq', 1, false);
-
-
-
 SELECT pg_catalog.setval('public.booking_id_seq', 1, false);
-
-
-
-
 SELECT pg_catalog.setval('public.community_id_seq', 3, true);
-
-
-
-
 SELECT pg_catalog.setval('public.gym_id_seq', 1, false);
-
-
-
-
 SELECT pg_catalog.setval('public.image_id_seq', 3, true);
-
-
-
-
 SELECT pg_catalog.setval('public.locale_id_seq', 22, true);
-
-
-
 SELECT pg_catalog.setval('public.sport_id_seq', 1, false);
-
-
-
 
 ALTER TABLE ONLY public.application_user
     ADD CONSTRAINT application_user_pkey PRIMARY KEY (id);
 
-
-
-
 ALTER TABLE ONLY public.athlete
     ADD CONSTRAINT athlete_pkey PRIMARY KEY (id);
-
-
 
 ALTER TABLE ONLY public.attendance
     ADD CONSTRAINT attendance_pkey PRIMARY KEY (athlete_id, booking_id);
 
-
-
-
 ALTER TABLE ONLY public.body_measure
     ADD CONSTRAINT body_measure_pkey PRIMARY KEY (id);
-
-
 
 ALTER TABLE ONLY public.booking
     ADD CONSTRAINT booking_pkey PRIMARY KEY (id);
 
-
-
-
 ALTER TABLE ONLY public.community
     ADD CONSTRAINT community_pkey PRIMARY KEY (id);
-
-
-
 
 ALTER TABLE ONLY public.gym
     ADD CONSTRAINT gym_pkey PRIMARY KEY (id);
 
-
-
 ALTER TABLE ONLY public.hibernate_sequences
     ADD CONSTRAINT hibernate_sequences_pkey PRIMARY KEY (sequence_name);
-
-
 
 ALTER TABLE ONLY public.image
     ADD CONSTRAINT image_pkey PRIMARY KEY (id);
 
-
-
 ALTER TABLE ONLY public.locale
     ADD CONSTRAINT locale_pkey PRIMARY KEY (id);
-
-
-
 
 ALTER TABLE ONLY public.manager
     ADD CONSTRAINT manager_pkey PRIMARY KEY (id);
 
-
-
 ALTER TABLE ONLY public.membership
     ADD CONSTRAINT membership_pkey PRIMARY KEY (athlete_id, community_id);
 
-
-
-
 ALTER TABLE ONLY public.practicable
     ADD CONSTRAINT practicable_pkey PRIMARY KEY (gym_id, sport_id);
-
-
-
 
 ALTER TABLE ONLY public.sport
     ADD CONSTRAINT sport_pkey PRIMARY KEY (id);
 
 
-
-
 ALTER TABLE ONLY public.body_measure
     ADD CONSTRAINT uk_13jhht8vtac2jeyw091lm5jlw UNIQUE (created_by);
-
-
 
 ALTER TABLE ONLY public.athlete
     ADD CONSTRAINT uk_3c792hhw22kj9ciyss2kl29px UNIQUE (user_id);
 
-
-
-
 ALTER TABLE ONLY public.attendance
     ADD CONSTRAINT uk_4qaubs99wum51kgnwugxn8p8w UNIQUE (created_by);
-
-
 
 ALTER TABLE ONLY public.manager
     ADD CONSTRAINT uk_4vbgsjl6mcxrqyvts0hlilhob UNIQUE (user_id);
 
-
-
 ALTER TABLE ONLY public.application_user
     ADD CONSTRAINT uk_5xlxc5x36ssrwdq0vcnntbs9k UNIQUE (keycloak_id);
-
-
-
 
 ALTER TABLE ONLY public.gym
     ADD CONSTRAINT uk_69p52vagdbot2hbyhpnnhfser UNIQUE (locale_id);
 
-
-
 ALTER TABLE ONLY public.application_user
     ADD CONSTRAINT uk_6c0v0rco93sykgyetukfmkkod UNIQUE (username);
-
-
-
 
 ALTER TABLE ONLY public.manager
     ADD CONSTRAINT uk_8r69rgtkks0yq2mfcl4d2iiw5 UNIQUE (locale_id);
 
-
-
 ALTER TABLE ONLY public.community
     ADD CONSTRAINT uk_ggi0mfnbrejia9lxku7voffc9 UNIQUE (name);
-
-
-
 
 ALTER TABLE ONLY public.athlete
     ADD CONSTRAINT uk_ja42ea6oy9kbgcv22vua3aiiu UNIQUE (locale_id);
 
-
-
-
 ALTER TABLE ONLY public.membership
     ADD CONSTRAINT fk4a4o7fx3xersm0wlav1d0hmqm FOREIGN KEY (community_id) REFERENCES public.community(id);
-
-
-
 
 ALTER TABLE ONLY public.practicable
     ADD CONSTRAINT fk4astekm158gf8ypsil5uup6pc FOREIGN KEY (gym_id) REFERENCES public.gym(id);
 
-
-
-
 ALTER TABLE ONLY public.body_measure
     ADD CONSTRAINT fk61ktfjmuev86ic1h6rdfgu3l FOREIGN KEY (athlete_id) REFERENCES public.athlete(id);
-
-
-
 
 ALTER TABLE ONLY public.attendance
     ADD CONSTRAINT fk6koc5m5mxtx6nrqn9vp14kntd FOREIGN KEY (athlete_id) REFERENCES public.athlete(id);
 
-
-
-
 ALTER TABLE ONLY public.membership
     ADD CONSTRAINT fk7vs0dkftdx1b7u9i5lbmsjup9 FOREIGN KEY (athlete_id) REFERENCES public.athlete(id);
-
-
 
 ALTER TABLE ONLY public.practicable
     ADD CONSTRAINT fk96den0luls7wcaiy8sytl84q0 FOREIGN KEY (sport_id) REFERENCES public.sport(id);
 
-
-
-
 ALTER TABLE ONLY public.athlete
     ADD CONSTRAINT fk_3c792hhw22kj9ciyss2kl29px FOREIGN KEY (user_id) REFERENCES public.application_user(id);
-
-
-
 ALTER TABLE ONLY public.manager
     ADD CONSTRAINT fk_4vbgsjl6mcxrqyvts0hlilhob FOREIGN KEY (user_id) REFERENCES public.application_user(id);
-
-
 
 ALTER TABLE ONLY public.manager
     ADD CONSTRAINT fk_8r69rgtkks0yq2mfcl4d2iiw5 FOREIGN KEY (locale_id) REFERENCES public.locale(id);
 
-
-
 ALTER TABLE ONLY public.athlete
     ADD CONSTRAINT fk_ja42ea6oy9kbgcv22vua3aiiu FOREIGN KEY (locale_id) REFERENCES public.locale(id);
-
-
 
 ALTER TABLE ONLY public.community
     ADD CONSTRAINT fkg0dtoy3ipvenr3mry0s2yyhis FOREIGN KEY (community_image_id) REFERENCES public.image(id);
 
-
-
 ALTER TABLE ONLY public.gym
     ADD CONSTRAINT fkg4lg20qy3077exloole8259gu FOREIGN KEY (locale_id) REFERENCES public.locale(id);
-
-
-
 
 ALTER TABLE ONLY public.booking
     ADD CONSTRAINT fki81a3k5iauq0jb3fq7st2rchd FOREIGN KEY (community_id) REFERENCES public.community(id);
 
-
 ALTER TABLE ONLY public.booking
     ADD CONSTRAINT fkkyc9nv9emu6sd6efl13g3r9u2 FOREIGN KEY (gym_id) REFERENCES public.gym(id);
 
-
-
 ALTER TABLE ONLY public.attendance
     ADD CONSTRAINT fkmyobp8qdqecw7voxp72qjeqo7 FOREIGN KEY (booking_id) REFERENCES public.booking(id);
-
-
 
 ALTER TABLE ONLY public.gym
     ADD CONSTRAINT fkp4v3qnttb6tgvmu319obi41h2 FOREIGN KEY (manager_id) REFERENCES public.manager(id);

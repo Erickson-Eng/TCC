@@ -14,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
-import java.util.Arrays;
 
 @RestController
 @RequestMapping("/api/v1/gym")
@@ -42,7 +41,11 @@ public class GymController {
         var gymList = gymService.findGymByFilter(gymFilterParams);
         return ResponseEntity.ok().body(gymList);
     }
-
+    @GetMapping("/get-by-id/{id}")
+    public ResponseEntity<GymResponse> getGymById(@PathVariable Long id){
+        var response = gymService.getGymById(id);
+        return ResponseEntity.ok(response);
+    }
     @GetMapping("/get-all")
     public ResponseEntity<GymTableResponse> getAllGyms(){
         GymTableResponse gymTypeResponse = gymService.getAllGyms();

@@ -24,4 +24,6 @@ public class AthleteResponse {
     private LocaleResponse localeResponse;
 
     private List<BodyMeasureResponse> bodyMeasureList;
+
+    private String username;
 }

@@ -93,6 +93,12 @@ public class CommunityServicePostgresql implements CommunityService {
         return CommunityTableResponse.builder().communityResponseList(communityResponses).build();
     }
 
+    @Override
+    public CommunityResponse getCommunityById(Long id) {
+        Optional<Community> community = communityRepository.findById(id);
+        return community.map(value -> communityMapper.entityToCommunityResponse(value)).orElse(null);
+    }
+
     private List<Community> verifyIfExist(String name){
         return communityRepository.findAllByName(name);
     }

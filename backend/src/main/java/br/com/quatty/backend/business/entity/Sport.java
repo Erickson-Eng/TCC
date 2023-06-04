@@ -1,5 +1,6 @@
 package br.com.quatty.backend.business.entity;
 
+import br.com.quatty.backend.api.dto.response.SportResponse;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedBy;

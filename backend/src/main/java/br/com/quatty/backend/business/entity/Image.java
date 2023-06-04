@@ -24,7 +24,7 @@ public class Image implements Serializable {
     private String type;
 
     @Lob
-    @Column(name = "imagedata", length = 1000)
+    @Column(name = "imagedata")
     private byte[] imageData;
 
     @OneToOne(mappedBy = "communityImage")

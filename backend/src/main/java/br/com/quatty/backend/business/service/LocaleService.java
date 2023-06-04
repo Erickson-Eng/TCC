@@ -15,5 +15,7 @@ public interface LocaleService {
 
     LocaleTableResponse getLocaleByFilter(LocaleFilterParams filterParams);
 
+    LocaleResponse getLocaleForGym(Long gymId);
+
 
 }

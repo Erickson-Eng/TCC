@@ -1,9 +1,12 @@
 package br.com.quatty.backend.api.controller;
 
 
+import br.com.quatty.backend.api.dto.request.LoginRequest;
 import br.com.quatty.backend.api.dto.request.UserRequest;
+import br.com.quatty.backend.api.dto.response.AccessTokenResponseDTO;
 import br.com.quatty.backend.api.dto.response.MessageResponse;
 import br.com.quatty.backend.api.dto.response.UserResponse;
+import br.com.quatty.backend.business.service.KeycloakService;
 import br.com.quatty.backend.business.service.UserService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -21,6 +24,7 @@ import java.net.URI;
 public class UserController {
 
     private final UserService userService;
+    private final KeycloakService keycloakService;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -35,5 +39,12 @@ public class UserController {
     public ResponseEntity<MessageResponse> helloWorld(){
         MessageResponse message = MessageResponse.builder().content("hello World").build();
         return ResponseEntity.ok(message);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<AccessTokenResponseDTO> login(@RequestBody LoginRequest loginRequest){
+        AccessTokenResponseDTO accessTokenResponseDTO = keycloakService
+                .login(loginRequest.getUsernameOrEmail(), loginRequest.getPassword());
+        return ResponseEntity.ok(accessTokenResponseDTO);
     }
 }

@@ -11,6 +11,7 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
@@ -83,6 +84,18 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         HttpStatus badRequest = HttpStatus.FORBIDDEN;
         ApiError apiError = ApiError.builder()
                 .httpStatus(badRequest)
+                .message(e.getMessage())
+                .timeStamp(ZonedDateTime.now(ZoneId.of("Z")))
+                .build();
+
+        return new ResponseEntity<>(apiError, badRequest);
+    }
+
+    @ExceptionHandler(value = {HttpClientErrorException.class})
+    protected ResponseEntity<ApiError> handleHttpClientErrorException(HttpClientErrorException e){
+        HttpStatus badRequest = HttpStatus.FORBIDDEN;
+        ApiError apiError = ApiError.builder()
+                .httpStatus(HttpStatus.valueOf(e.getStatusCode().value()))
                 .message(e.getMessage())
                 .timeStamp(ZonedDateTime.now(ZoneId.of("Z")))
                 .build();

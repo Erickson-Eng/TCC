@@ -12,4 +12,6 @@ public interface MembershipRepository extends JpaRepository<Membership, Membersh
 
     @Query("SELECT m from Membership m join m.athlete a join a.user u where u.username = :username")
     List<Membership> findAllMembershipByUsername(@Param("username") String username);
+    @Query("SELECT m from Membership m join Community c on c.id = m.community.id where c.id = :communityId")
+    List<Membership> findAllByMembershipPKAndCommunityId(Long communityId);
 }
