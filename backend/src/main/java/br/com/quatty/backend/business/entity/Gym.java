@@ -6,6 +6,7 @@ import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -20,6 +21,7 @@ import java.util.Set;
 @ToString
 @Entity
 @Table(name = "gym")
+@EntityListeners(AuditingEntityListener.class)
 public class Gym implements Serializable {
     @Serial
     private static final long serialVersionUID = 7962264726941618041L;
@@ -33,9 +35,16 @@ public class Gym implements Serializable {
     @Column(columnDefinition = "TEXT")
     private String rules;
     @OneToOne(cascade = {CascadeType.REFRESH}, orphanRemoval = true)
+    @JoinColumn(unique = true)
     private Locale locale;
 
-    @OneToMany(mappedBy = "gym")
+    @Column(length = 150, nullable = false)
+    private String shortDescription;
+
+    @ManyToOne(cascade = CascadeType.REFRESH)
+    private Manager manager;
+
+    @OneToMany(mappedBy = "gym", cascade = {CascadeType.REFRESH})
     @ToString.Exclude
     private Set<Practicable> practicableSet;
 

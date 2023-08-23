@@ -6,6 +6,7 @@ import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -20,6 +21,7 @@ import java.util.Set;
 @ToString
 @Entity
 @Table(name = "community")
+@EntityListeners(AuditingEntityListener.class)
 public class Community implements Serializable {
     @Serial
     private static final long serialVersionUID = -4747234675831091652L;
@@ -35,7 +37,7 @@ public class Community implements Serializable {
     private String description;
 
     @Column(name = "community_rules", columnDefinition = "TEXT")
-    private String community_rules;
+    private String communityRules;
     @OneToMany(mappedBy = "community")
     @ToString.Exclude
     private Set<Membership> membershipSet;

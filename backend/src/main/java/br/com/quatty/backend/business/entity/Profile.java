@@ -23,7 +23,7 @@ import java.time.LocalDateTime;
 @SuperBuilder
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @EntityListeners(AuditingEntityListener.class)
-public class Profile implements Serializable {
+public abstract class Profile implements Serializable {
     @Serial
     private static final long serialVersionUID = -5491102604750413133L;
     @Id
@@ -31,29 +31,24 @@ public class Profile implements Serializable {
     @Column(name = "id", nullable = false)
     private Long id;
     @Column(nullable = false)
-    private String fullName;
+    private String firstName;
+    @Column(nullable = false)
+    private String lastName;
     private String socialName;
     private LocalDate birthDate;
-    @Column(length = 11)
     private String cpf;
-
-    @OneToOne(cascade = {CascadeType.REFRESH, CascadeType.DETACH})
+    @OneToOne(cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.PERSIST})
+    @JoinColumn(unique = true)
     private Locale locale;
+    @OneToOne(cascade = {CascadeType.REFRESH, CascadeType.DETACH})
+    @JoinColumn(unique = true)
+    private User user;
 
     @Column(name = "created_date", nullable = false, updatable = false)
     @CreatedDate
     private LocalDateTime createdDate;
-
     @Column(name = "modified_date")
     @LastModifiedDate
     private LocalDateTime modifiedDate;
-
-    @Column(name = "created_by", unique = true)
-    @CreatedBy
-    private String createdBy;
-
-    @Column(name = "modified_by")
-    @LastModifiedBy
-    private String modifiedBy;
 
 }

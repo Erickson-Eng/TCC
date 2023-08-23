@@ -15,7 +15,8 @@ public class MembershipResponse {
     private String athleteName;
     private Long communityId;
     private String communityName;
-    private String membershipStatus;
+    private String applicationState;
     private String createdDate;
     private String modifiedDate;
+    private String communityProfile;
 }

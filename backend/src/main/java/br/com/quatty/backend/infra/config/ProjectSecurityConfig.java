@@ -21,7 +21,20 @@ import java.util.List;
 @Configuration
 public class ProjectSecurityConfig {
 
-    @Bean
+    protected static final String ROLE_ATHLETE = "ATHLETE";
+    protected static final String ROLE_ADMIN = "ADMIN";
+    protected static final String ROLE_MANAGER = "MANAGER";
+    protected static final String COMMUNITY_MANAGER = "COMMUNITY_MANAGER";
+    private static final String[] PUBLIC_MATCHERS = {
+            "/api/v1/sport/**",
+            "/api/v1/locale/**",
+            "/api/v1/gym/**",
+            "/api/v1/membership/**",
+    };
+
+
+
+            @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
         CsrfTokenRequestAttributeHandler requestHandler = new CsrfTokenRequestAttributeHandler();
         requestHandler.setCsrfRequestAttributeName("_csrf");
@@ -38,18 +51,23 @@ public class ProjectSecurityConfig {
                     config.setExposedHeaders(List.of("Authorization"));
                     config.setMaxAge(3600L);
                     return config;
-                }).and().csrf((csrf) -> csrf.csrfTokenRequestHandler(requestHandler).ignoringRequestMatchers("/contact","/register")
+                }).and().csrf(csrf -> csrf.csrfTokenRequestHandler(requestHandler)
+                        .ignoringRequestMatchers("/contact","/api/v1/user")
                         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
                 .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
                 .authorizeHttpRequests()
-                .requestMatchers("/api/v1/athlete").hasAnyRole("ATHLETE", "ADMIN")
-                .requestMatchers("/api/v1/locale").hasAnyRole("ATHLETE", "ADMIN", "MANAGER")
-                .requestMatchers("/api/v1/booking").hasAnyRole( "ADMIN", "MANAGER", "COMMUNITY_MANAGER")
-                .requestMatchers("/api/v1/community").hasAnyRole("ATHLETE", "ADMIN")
-                .requestMatchers("/api/v1/gym").hasAnyRole("MANAGER", "ADMIN")
-                .requestMatchers("/api/v1/membership").hasAnyRole("COMMUNITY_MANAGER", "ADMIN")
-                .requestMatchers("/api/v1/practicable").hasAnyRole("MANAGER", "ADMIN")
-                .requestMatchers("/api/v1/sport").hasRole("ADMIN")
+                .requestMatchers("/api/v1/athlete/**").hasAnyRole(ROLE_ATHLETE, ROLE_ADMIN)
+                .requestMatchers("/api/v1/booking/**").hasAnyRole( ROLE_ADMIN, ROLE_MANAGER, COMMUNITY_MANAGER)
+                .requestMatchers("/api/v1/community/**").hasAnyRole(ROLE_ATHLETE, ROLE_ADMIN)
+                .requestMatchers("/api/v1/gym/**").hasAnyRole(ROLE_MANAGER, ROLE_ADMIN)
+                .requestMatchers("/api/v1/practicable/**").hasAnyRole(ROLE_MANAGER, ROLE_ADMIN)
+                .requestMatchers(HttpMethod.PUT,"/api/v1/membership/**").hasAnyRole(COMMUNITY_MANAGER, ROLE_ADMIN)
+                .requestMatchers(HttpMethod.POST,"/api/v1/sport").hasRole(ROLE_ADMIN)
+                .requestMatchers(HttpMethod.POST, "/api/v1/locale").hasAnyRole(ROLE_ATHLETE, ROLE_ADMIN, ROLE_MANAGER)
+                .requestMatchers(HttpMethod.PUT, "/api/v1/locale/**").hasAnyRole(ROLE_ATHLETE, ROLE_ADMIN, ROLE_MANAGER)
+                .requestMatchers(HttpMethod.PUT, "/api/v1/sport/**").hasRole(ROLE_ADMIN)
+                .requestMatchers(HttpMethod.GET, PUBLIC_MATCHERS).permitAll()
+                .requestMatchers(HttpMethod.POST,"/api/v1/user", "/api/v1/membership/**").permitAll()
                 .and().oauth2ResourceServer().jwt().jwtAuthenticationConverter(jwtAuthenticationConverter);
         return http.build();
     }

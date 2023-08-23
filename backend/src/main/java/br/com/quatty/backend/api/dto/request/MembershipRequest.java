@@ -12,10 +12,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class MembershipRequest {
 
-    @NotNull
+    @NotNull(message = "athlete id is mandatory")
     private Long athleteId;
-    @NotNull
+    @NotNull(message = "community id is mandatory")
     private Long communityId;
-
-    private String membershipStatus;
+    private String applicationState;
+    private String communityProfile;
 }

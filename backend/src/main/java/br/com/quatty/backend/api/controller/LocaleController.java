@@ -41,7 +41,7 @@ public class LocaleController {
 
     @PutMapping("/{id}")
     public ResponseEntity<LocaleResponse> updateLocale(@PathVariable Long id,
-                                                       @RequestBody LocaleRequest localeRequest){
+                                                       @Valid @RequestBody LocaleRequest localeRequest){
         var locale = localeService.updateLocale(id, localeRequest);
         return ResponseEntity.ok().body(locale);
     }

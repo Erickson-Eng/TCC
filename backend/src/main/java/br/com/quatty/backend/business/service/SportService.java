@@ -13,4 +13,6 @@ public interface SportService {
     SportResponse getSportById(Long id);
 
     SportTableResponse getSportByName(String name);
+
+    SportTableResponse getAllSports();
 }

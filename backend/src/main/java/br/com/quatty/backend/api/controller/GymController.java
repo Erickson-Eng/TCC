@@ -3,16 +3,18 @@ package br.com.quatty.backend.api.controller;
 import br.com.quatty.backend.api.dto.filter.GymFilterParams;
 import br.com.quatty.backend.api.dto.request.GymRequest;
 import br.com.quatty.backend.api.dto.response.GymResponse;
+import br.com.quatty.backend.api.dto.response.enums.GymTypeResponse;
 import br.com.quatty.backend.api.dto.table.GymTableResponse;
+import br.com.quatty.backend.business.entity.enums.GymType;
 import br.com.quatty.backend.business.service.GymService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.Arrays;
 
 @RestController
 @RequestMapping("/api/v1/gym")
@@ -21,7 +23,6 @@ public class GymController {
 
     private GymService gymService;
 
-    @Secured({"ROLE_ADMIN", "ROLE_MANAGER"})
     @PostMapping
     public ResponseEntity<GymResponse> createGym(@RequestBody @Valid GymRequest gymRequest){
         var gym  = gymService.createGym(gymRequest);
@@ -29,7 +30,6 @@ public class GymController {
         return ResponseEntity.created(uri).body(gym);
     }
 
-    @Secured({"ROLE_ADMIN", "ROLE_MANAGER"})
     @PutMapping("/{id}")
     public ResponseEntity<GymResponse> updateGymInfo(@PathVariable Long id,
                                                      @RequestBody GymRequest gymRequest){
@@ -43,7 +43,14 @@ public class GymController {
         return ResponseEntity.ok().body(gymList);
     }
 
-    @Secured({"ROLE_ADMIN"})
+    @GetMapping("/get-params")
+    public ResponseEntity<GymTypeResponse> getGymType(){
+        GymTypeResponse typeResponse = GymTypeResponse.builder()
+                .gymTypeList(GymType.getAllGymType())
+                .build();
+        return ResponseEntity.ok().body(typeResponse);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteGymById(@PathVariable Long id){
         gymService.deleteGym(id);

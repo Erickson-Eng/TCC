@@ -3,7 +3,9 @@ package br.com.quatty.backend.api.controller;
 import br.com.quatty.backend.api.dto.filter.BookingFilterParams;
 import br.com.quatty.backend.api.dto.request.BookingRequest;
 import br.com.quatty.backend.api.dto.response.BookingResponse;
+import br.com.quatty.backend.api.dto.response.enums.BookingStatusResponse;
 import br.com.quatty.backend.api.dto.table.BookingTableResponse;
+import br.com.quatty.backend.business.entity.enums.ApplicationState;
 import br.com.quatty.backend.business.service.BookingService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -12,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.Arrays;
 
 @RestController
 @RequestMapping("/api/v1/booking")
@@ -39,4 +42,13 @@ public class BookingController {
         return ResponseEntity.ok().body(booking);
     }
 
+    @GetMapping("/get-params")
+    public ResponseEntity<BookingStatusResponse> getAllStatus(){
+        BookingStatusResponse bookingStatusResponse = BookingStatusResponse.builder()
+                .bookingStatusList(ApplicationState.getAllStatus())
+                .build();
+
+        return ResponseEntity.ok().body(bookingStatusResponse);
+
+    }
 }

@@ -1,18 +1,22 @@
 package br.com.quatty.backend.business.entity;
 
+import br.com.quatty.backend.business.entity.enums.ApplicationState;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.List;
 
 
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -20,6 +24,7 @@ import java.time.LocalDateTime;
 @ToString
 @Entity
 @Table(name = "booking")
+@EntityListeners(AuditingEntityListener.class)
 public class Booking implements Serializable {
     @Serial
     private static final long serialVersionUID = 3888718628884874687L;
@@ -29,9 +34,18 @@ public class Booking implements Serializable {
     private Long id;
 
     @Column(nullable = false)
-    private LocalDateTime checkinBooking;
+    private DayOfWeek day;
     @Column(nullable = false)
-    private LocalDateTime checkoutBooking;
+    private LocalTime checkinBooking;
+    @Column(nullable = false)
+    private LocalTime checkoutBooking;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private ApplicationState applicationState;
+    @OneToMany(mappedBy = "booking")
+    @ToString.Exclude
+    private List<Attendance> attendanceList;
 
     @ManyToOne(cascade = CascadeType.REFRESH)
     @JoinColumn(nullable = false, referencedColumnName = "id")
@@ -56,4 +70,9 @@ public class Booking implements Serializable {
     @Column(name = "modified_by")
     @LastModifiedBy
     private String modifiedBy;
+
+
+    public void setApplicationState(String membershipStatus) {
+        this.applicationState = ApplicationState.getApplicationState(membershipStatus);
+    }
 }
